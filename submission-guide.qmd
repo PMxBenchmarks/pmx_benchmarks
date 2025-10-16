@@ -1,0 +1,175 @@
+---
+title: "Submission Guide"
+---
+
+## Overview
+
+We welcome high-quality benchmark dataset submissions from the pharmacometrics community. Each submission undergoes rigorous peer review and, upon acceptance, becomes a citable publication with a DOI.
+
+## Benchmark Requirements
+
+All benchmark datasets must meet the following criteria:
+
+### 1. Realism
+
+- **Irregular sampling**: Reflect realistic clinical trial sampling schedules
+- **Confounding dropouts**: Include realistic patient dropout patterns
+- **Realistic relationships**: Capture true dose-exposure-response relationships
+
+### 2. Longitudinal Structure
+
+- Data must include repeated measurements over time
+- Appropriate for pharmacometric modeling approaches
+
+### 3. Comprehensive Documentation
+
+Your submission must include:
+
+- **Generative process description**: For synthetic data, document how the data was generated
+- **Realistic scenario description**: Explain what real-world situation the dataset represents
+- **Clear data dictionary**: Describe all variables and their units
+
+### 4. Associated Tasks
+
+Define specific tasks that reflect real-world decision-making in drug development:
+
+- Model selection challenges
+- Dose optimization
+- Clinical trial simulation validation
+- Exposure-response characterization
+
+### 5. Train/Test Split
+
+- Provide a pre-specified train/test split
+- Evaluation metrics should be computed on the test set
+- Document the rationale for the split strategy
+
+## Submission Structure
+
+Each benchmark must follow this directory structure:
+
+```
+benchmarks/<dataset-name>/
+├── index.qmd              # Main description and documentation
+├── data/
+│   ├── train.csv          # Training dataset
+│   ├── test.csv           # Test dataset
+│   └── data-dictionary.csv # Column descriptions
+├── metadata.yml           # Machine-readable metadata
+└── README.md              # Quick reference (generated from index.qmd)
+```
+
+### Required Files
+
+#### 1. `index.qmd`
+
+Your main documentation file must include the following sections:
+
+- **Title and Authors**
+- **Abstract**: Brief overview of the benchmark
+- **Background**: Context and motivation
+- **Data Generation** (for synthetic data): Detailed methodology
+- **Dataset Description**: Variables, sample size, study design
+- **Tasks**: Specific modeling challenges with evaluation criteria
+- **Train/Test Split**: Description and rationale
+- **References**: Relevant citations
+
+#### 2. Data Files
+
+- `train.csv`: Training dataset
+- `test.csv`: Test dataset
+- Both files must use the same column structure
+
+#### 3. `data-dictionary.csv`
+
+A CSV file describing each column with the following structure:
+
+| column_name | description | units | type | coding |
+|-------------|-------------|-------|------|--------|
+| ID | Subject identifier | - | integer | - |
+| TIME | Time since first dose | hours | numeric | - |
+| DV | Dependent variable (concentration) | mg/L | numeric | - |
+| ... | ... | ... | ... | ... |
+
+#### 4. `metadata.yml`
+
+Machine-readable metadata in YAML format:
+
+```yaml
+name: dataset-name
+title: Full Dataset Title
+version: 1.0.0
+date: 2025-10-16
+authors:
+  - name: Jane Doe
+    affiliation: University Example
+    email: jane.doe@example.com
+  - name: John Smith
+    affiliation: Pharma Corp
+description: Brief description of the benchmark
+keywords:
+  - pharmacokinetics
+  - dose-response
+  - longitudinal
+data_type: synthetic
+therapeutic_area: oncology
+n_subjects: 250
+n_observations: 2500
+tasks:
+  - name: task1
+    description: Model selection challenge
+    metric: AIC
+  - name: task2
+    description: Prediction accuracy
+    metric: RMSE
+license: CC-BY-4.0
+```
+
+## Submission Process
+
+### Step 1: Prepare Your Benchmark
+
+1. Create your benchmark following the structure above
+2. Test that your documentation builds correctly with Quarto
+3. Validate that your data files are properly formatted
+
+### Step 2: Submit a Pull Request
+
+1. Fork this repository
+2. Create a new branch: `git checkout -b benchmark/<your-dataset-name>`
+3. Add your benchmark to `benchmarks/<your-dataset-name>/`
+4. Commit your changes with a clear message
+5. Push to your fork and submit a Pull Request
+
+Use our [Pull Request template](.github/PULL_REQUEST_TEMPLATE.md) which will guide you through the submission checklist.
+
+### Step 3: Peer Review
+
+Your submission will undergo peer review:
+
+- Technical validation (automated checks)
+- Scientific review (expert evaluation)
+- Documentation quality assessment
+
+Reviewers will provide feedback via PR comments. Please address all comments before final acceptance.
+
+### Step 4: Acceptance and Publication
+
+Upon acceptance:
+
+- Your benchmark will be merged into the main repository
+- A DOI will be assigned
+- Your benchmark will appear on the website
+- You can cite it in publications
+
+## Tips for a Successful Submission
+
+- **Start early**: The review process may take several iterations
+- **Be thorough**: Complete documentation speeds up review
+- **Test your data**: Ensure files load correctly and contain expected information
+- **Engage with reviewers**: Respond promptly to feedback
+- **Follow examples**: Look at existing benchmarks for guidance
+
+## Questions?
+
+If you have questions about the submission process, please [contact us](contact.qmd) or open a discussion on GitHub.

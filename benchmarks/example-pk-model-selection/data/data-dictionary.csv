@@ -1,0 +1,12 @@
+column_name,description,units,type,coding
+ID,Subject identifier,-,integer,1-200
+TIME,Time since first dose,hours,numeric,>=0
+AMT,Dose amount,mg,numeric,0 or 100
+DV,Dependent variable (plasma concentration),mg/L,numeric,>0 when EVID=0
+EVID,Event ID,-,integer,0=observation; 1=dose
+CMT,Compartment,-,integer,1=gut; 2=central
+MDV,Missing dependent variable flag,-,integer,0=not missing; 1=missing
+WT,Body weight,kg,numeric,Continuous
+AGE,Age,years,numeric,Continuous
+SEX,Sex,-,integer,0=Female; 1=Male
+DROPOUT,Dropout flag,-,integer,0=completed; 1=dropped out

@@ -1,0 +1,52 @@
+---
+title: "Contact"
+---
+
+## Get in Touch
+
+We welcome questions, suggestions, and collaboration inquiries from the pharmacometrics community.
+
+## General Inquiries
+
+*Placeholder: Add primary contact email or contact form*
+
+- **Email**: TBD
+- **GitHub Discussions**: [Start a discussion](https://github.com/korsbo/pmx_benchmarks/discussions)
+
+## Submission Questions
+
+If you have questions about submitting a benchmark:
+
+1. Review our [submission guide](submission-guide.qmd)
+2. Check existing [GitHub issues](https://github.com/korsbo/pmx_benchmarks/issues)
+3. Open a new discussion or issue if your question isn't answered
+
+## Technical Support
+
+For technical issues with:
+
+- Website functionality
+- Data access
+- Tooling packages
+
+Please open an issue on our [GitHub repository](https://github.com/korsbo/pmx_benchmarks/issues).
+
+## Joining the Initiative
+
+If you're interested in:
+
+- Serving on the governing body
+- Becoming a reviewer
+- Collaborating on the initiative
+
+*Placeholder: Add contact information for governance inquiries*
+
+## Social Media
+
+*Placeholder: Add social media links if applicable*
+
+---
+
+## Mailing List
+
+*Placeholder: Add information about mailing list or newsletter if planned*

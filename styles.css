@@ -1,0 +1,39 @@
+/* Custom styles for Pharmacometrics Benchmarks website */
+
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+}
+
+/* Improve code block styling */
+pre {
+  border-radius: 5px;
+  padding: 1em;
+}
+
+/* Enhance table styling */
+table {
+  margin: 1.5em 0;
+}
+
+/* Style callout boxes */
+.callout {
+  padding: 1em;
+  margin: 1em 0;
+  border-left: 4px solid var(--secondary-color);
+  background-color: #f8f9fa;
+}
+
+/* Benchmark card styling */
+.benchmark-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5em;
+  margin: 1em 0;
+  transition: box-shadow 0.3s;
+}
+
+.benchmark-card:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}

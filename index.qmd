@@ -1,0 +1,33 @@
+---
+title: "Pharmacometrics Benchmarks"
+---
+
+## Welcome
+
+This repository is a place where researchers can upload benchmark datasets for pharmacometrics.
+
+The datasets will mostly be synthetic with some strong demands on how realistic and well crafted they are. Each benchmark PR will essentially constitute a peer reviewed paper with a DOI and the review process will be rigorous.
+
+## Core Purpose
+
+A core purpose is to enable the quantification of performance of different modelling methodology in a way that makes it easier to compare different methodology papers with each other. We will also be able to host competitions.
+
+## Why Benchmarks Matter
+
+Standardized benchmarks enable:
+
+- **Reproducible comparisons** between different methodological approaches
+- **Transparent evaluation** of new methods against established baselines
+- **Community-driven standards** for pharmacometric modeling
+- **Competitive innovation** through organized challenges
+
+## Getting Started
+
+- Learn more [about this initiative](about.qmd)
+- Browse available [benchmarks](benchmarks.qmd)
+- Read our [submission guide](submission-guide.qmd)
+- [Contact us](contact.qmd) to get involved
+
+## Recent Benchmarks
+
+*Benchmarks will be listed here as they are added to the repository.*

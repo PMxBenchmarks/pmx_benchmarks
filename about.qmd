@@ -1,0 +1,50 @@
+---
+title: "About the Initiative"
+---
+
+## Mission
+
+The Pharmacometrics Benchmarks Initiative provides a curated collection of high-quality benchmark datasets for evaluating and comparing pharmacometric modeling methodologies.
+
+## Governing Body
+
+*Placeholder: Information about the governing committee and organizational structure will be added here.*
+
+### Current Members
+
+- TBD
+
+## Association with ISoP
+
+This initiative is associated with the International Society of Pharmacometrics (ISoP).
+
+*Placeholder: Details about the formal relationship with ISoP and publication venue information.*
+
+## Publication Venue
+
+Each accepted benchmark submission will be treated as a peer-reviewed publication with:
+
+- Rigorous peer review process
+- Assignment of a Digital Object Identifier (DOI)
+- Permanent archival record
+- Citation in the scientific literature
+
+## How to Get Involved
+
+We welcome contributions from the pharmacometrics community!
+
+### As a Contributor
+
+Submit a benchmark dataset following our [submission guide](submission-guide.qmd).
+
+### As a Reviewer
+
+*Placeholder: Information about becoming a reviewer.*
+
+### As a User
+
+Browse our [benchmarks](benchmarks.qmd) and use them to evaluate your methodologies.
+
+## Contact Information
+
+For questions, suggestions, or collaboration inquiries, please see our [contact page](contact.qmd).

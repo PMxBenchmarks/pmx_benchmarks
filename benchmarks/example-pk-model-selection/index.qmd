@@ -1,0 +1,191 @@
+---
+title: "Example PK Model Selection Benchmark"
+subtitle: "A synthetic two-compartment model with covariates"
+author:
+  - name: Jane Researcher
+    affiliation: Example University
+  - name: John Modeler
+    affiliation: Pharma Institute
+date: 2025-10-16
+---
+
+## Abstract
+
+This benchmark dataset provides a synthetic pharmacokinetic dataset generated from a two-compartment model with covariate effects. The primary task is model selection: identifying the correct structural model and covariate relationships from the data. The dataset includes irregular sampling, informative dropout, and realistic inter-individual variability.
+
+**Keywords:** pharmacokinetics, model selection, two-compartment, synthetic data
+
+## Background
+
+Model selection is a fundamental challenge in pharmacometrics. This benchmark represents a controlled scenario where the true data-generating mechanism is known, allowing for rigorous evaluation of model selection methodologies.
+
+### Motivation
+
+- Evaluate different model selection strategies (stepwise, LASSO, Bayesian methods)
+- Compare information criteria (AIC, BIC, cross-validation)
+- Assess performance under realistic data conditions
+
+## Data Generation
+
+### True Model Structure
+
+The data were generated using a two-compartment model with first-order absorption and elimination:
+
+$$
+\frac{dA_{gut}}{dt} = -k_a \cdot A_{gut}
+$$
+
+$$
+\frac{dA_{central}}{dt} = k_a \cdot A_{gut} - \left(\frac{CL}{V_c} + \frac{Q}{V_c}\right) \cdot A_{central} + \frac{Q}{V_p} \cdot A_{peripheral}
+$$
+
+$$
+\frac{dA_{peripheral}}{dt} = \frac{Q}{V_c} \cdot A_{central} - \frac{Q}{V_p} \cdot A_{peripheral}
+$$
+
+### Parameter Values
+
+Population typical values:
+
+- $CL = 10$ L/h
+- $V_c = 50$ L  
+- $Q = 5$ L/h
+- $V_p = 30$ L
+- $k_a = 0.5$ h$^{-1}$
+
+### Covariate Effects
+
+**Clearance:**
+$$
+CL_i = 10 \cdot \left(\frac{WT_i}{70}\right)^{0.75} \cdot e^{\eta_{CL,i}}
+$$
+
+**Central Volume:**
+$$
+V_{c,i} = 50 \cdot \left(\frac{WT_i}{70}\right) \cdot e^{\eta_{V_c,i}}
+$$
+
+Where $WT$ is body weight in kg.
+
+### Variability
+
+**Inter-individual variability (IIV):**
+
+- $\omega_{CL}^2 = 0.09$ (30% CV)
+- $\omega_{V_c}^2 = 0.04$ (20% CV)
+- $\omega_{Q}^2 = 0.16$ (40% CV)
+- $\omega_{V_p}^2 = 0.04$ (20% CV)
+
+**Residual error:**
+
+Combined proportional and additive error:
+$$
+Y_{ij} = C_{pred,ij} \cdot (1 + \epsilon_{prop,ij}) + \epsilon_{add,ij}
+$$
+
+Where $\epsilon_{prop} \sim N(0, 0.01)$ and $\epsilon_{add} \sim N(0, 0.25)$.
+
+### Study Design
+
+- **Sample size:** 200 subjects
+- **Dosing:** 100 mg oral dose once daily for 7 days
+- **Sampling:** Sparse sampling (3-5 samples per subject) at irregular times
+- **Dropout:** 15% dropout rate, higher for subjects with extreme exposure
+
+## Dataset Description
+
+### Variables
+
+See `data/data-dictionary.csv` for complete descriptions. Key variables:
+
+- **ID:** Subject identifier (1-200)
+- **TIME:** Time since first dose (hours)
+- **AMT:** Dose amount (mg)
+- **DV:** Dependent variable (concentration, mg/L)
+- **EVID:** Event ID (0=observation, 1=dose)
+- **CMT:** Compartment (1=gut, 2=central)
+- **WT:** Body weight (kg)
+- **AGE:** Age (years)
+- **SEX:** Sex (0=Female, 1=Male)
+
+### Sample Size
+
+- **Training set:** 140 subjects (70%), 673 observations
+- **Test set:** 60 subjects (30%), 287 observations
+
+## Tasks
+
+### Task 1: Structural Model Selection
+
+**Objective:** Identify the correct structural model from candidates.
+
+**Candidates:**
+
+1. One-compartment model
+2. Two-compartment model (true)
+3. Three-compartment model
+
+**Evaluation Metric:** Model selection accuracy, AIC/BIC values on test set
+
+### Task 2: Covariate Model Selection
+
+**Objective:** Identify the correct covariate relationships.
+
+**Covariates to test:**
+
+- Weight on CL (true effect)
+- Weight on Vc (true effect)
+- Age on CL (no effect)
+- Sex on CL (no effect)
+
+**Evaluation Metric:** True positive and false positive rates for covariate selection
+
+### Task 3: Prediction Accuracy
+
+**Objective:** Predict concentrations in the test set.
+
+**Evaluation Metrics:**
+
+- Root Mean Squared Error (RMSE)
+- Mean Absolute Error (MAE)
+- Normalized Root Mean Squared Error (NRMSE)
+
+## Train/Test Split
+
+The dataset was split 70/30 maintaining:
+
+- Representative distribution of covariates
+- Similar dropout rates between sets
+- Balanced sparse sampling patterns
+
+**Rationale:** This split allows for robust model development while reserving sufficient data for meaningful external validation.
+
+## Usage Example
+
+```python
+import pandas as pd
+
+# Load data
+train = pd.read_csv('data/train.csv')
+test = pd.read_csv('data/test.csv')
+
+# Load data dictionary
+data_dict = pd.read_csv('data/data-dictionary.csv')
+print(data_dict)
+```
+
+## References
+
+1. Jonsson EN, Karlsson MO. Xpose--an S-PLUS based population pharmacokinetic/pharmacodynamic model building aid for NONMEM. Comput Methods Programs Biomed. 1999;58(1):51-64.
+
+2. Holford N. A size standard for pharmacokinetics. Clin Pharmacokinet. 1996;30(5):329-332.
+
+## License
+
+This dataset is provided under the CC-BY-4.0 license. You are free to use, share, and adapt this benchmark with attribution.
+
+## Citation
+
+If you use this benchmark, please cite:
+
+> Researcher J, Modeler J. (2025). Example PK Model Selection Benchmark. Pharmacometrics Benchmarks Initiative. DOI: TBD

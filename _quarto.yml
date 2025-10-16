@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Pharmacometrics Benchmarks"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+      - text: "Submission Guide"
+        href: submission-guide.qmd
+      - text: "Benchmarks"
+        href: benchmarks.qmd
+      - text: "Contact"
+        href: contact.qmd
+    right:
+      - icon: github
+        href: https://github.com/korsbo/pmx_benchmarks
+  
+  page-footer:
+    center: "Pharmacometrics Benchmarks Initiative | Associated with ISoP"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3

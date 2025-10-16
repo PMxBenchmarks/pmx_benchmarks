@@ -1,0 +1,34 @@
+---
+title: "Available Benchmarks"
+---
+
+## Browse Benchmarks
+
+Below you'll find all available benchmark datasets. Each benchmark includes detailed documentation, data files, and associated modeling tasks.
+
+### Using the Benchmarks
+
+All benchmarks are freely available under their specified licenses. You can:
+
+- Download datasets directly from this repository
+- Use helper packages (coming soon) to programmatically access benchmarks:
+  - **Python**: `pmx-benchmarks-py`
+  - **R**: `pmxbenchmarks`
+  - **Julia**: `PMXBenchmarks.jl`
+- Cite benchmarks in your publications using their DOIs
+
+---
+
+## Benchmarks
+
+*Benchmark listings will appear here as they are submitted and accepted.*
+
+### Example: Coming Soon
+
+The first benchmarks are currently under review. Check back soon!
+
+---
+
+## Contributing a Benchmark
+
+Interested in submitting your own benchmark? See our [submission guide](submission-guide.qmd) for detailed instructions.

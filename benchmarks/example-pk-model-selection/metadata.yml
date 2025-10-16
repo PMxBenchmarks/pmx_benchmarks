@@ -1,0 +1,38 @@
+name: example-pk-model-selection
+title: Example PK Model Selection Benchmark
+version: 1.0.0
+date: 2025-10-16
+authors:
+  - name: Jane Researcher
+    affiliation: Example University
+    email: jane.researcher@example.edu
+  - name: John Modeler
+    affiliation: Pharma Institute
+    email: john.modeler@pharma.org
+description: A synthetic two-compartment pharmacokinetic dataset for evaluating model selection methodologies
+keywords:
+  - pharmacokinetics
+  - model-selection
+  - two-compartment
+  - synthetic-data
+  - covariates
+data_type: synthetic
+therapeutic_area: general
+n_subjects: 200
+n_subjects_train: 140
+n_subjects_test: 60
+n_observations: 960
+n_observations_train: 673
+n_observations_test: 287
+tasks:
+  - name: structural-model-selection
+    description: Identify the correct structural model (one, two, or three compartment)
+    metric: AIC
+  - name: covariate-model-selection
+    description: Identify true covariate relationships (weight on CL and Vc)
+    metric: TPR/FPR
+  - name: prediction-accuracy
+    description: Predict concentrations in test set
+    metric: RMSE
+license: CC-BY-4.0
+doi: TBD
