@@ -13,7 +13,7 @@ This repository provides high-quality, peer-reviewed benchmark datasets that ena
 
 ## 🌐 Website
 
-Visit our [GitHub Pages site](https://korsbo.github.io/pmx_benchmarks/) for:
+Visit our [GitHub Pages site](https://pmxbenchmarks.github.io/pmx_benchmarks/) for:
 
 - Complete documentation
 - Browse available benchmarks
@@ -22,7 +22,7 @@ Visit our [GitHub Pages site](https://korsbo.github.io/pmx_benchmarks/) for:
 
 ## 📊 Available Benchmarks
 
-Browse all benchmarks at [korsbo.github.io/pmx_benchmarks/benchmarks](https://korsbo.github.io/pmx_benchmarks/benchmarks.html)
+Browse all benchmarks at [pmxbenchmarks.github.io/pmx_benchmarks/benchmarks](https://pmxbenchmarks.github.io/pmx_benchmarks/)
 
 ## 🚀 Quick Start
 
@@ -63,7 +63,7 @@ For easier programmatic access, see our companion repositories:
 3. Follow the structure in `benchmarks/example-pk-model-selection/`
 4. Submit a Pull Request
 
-See our [submission guide](https://korsbo.github.io/pmx_benchmarks/submission-guide.html) for detailed instructions.
+See our [submission guide](https://pmxbenchmarks.github.io/pmx_benchmarks/submission-guide.html) for detailed instructions.
 
 ## 📁 Repository Structure
 
@@ -105,7 +105,7 @@ All benchmarks must:
 
 We welcome contributions! Please see:
 
-- [Submission Guide](https://korsbo.github.io/pmx_benchmarks/submission-guide.html)
+- [Submission Guide](https://pmxbenchmarks.github.io/pmx_benchmarks/submission-guide.html)
 - [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
 
 ## 📝 License
@@ -115,15 +115,11 @@ We welcome contributions! Please see:
 
 ## 📧 Contact
 
-- **GitHub Discussions:** [Start a discussion](https://github.com/korsbo/pmx_benchmarks/discussions)
-- **Issues:** [Report an issue](https://github.com/korsbo/pmx_benchmarks/issues)
+- **GitHub Discussions:** [Start a discussion](https://github.com/pmxbenchmarks/pmx_benchmarks/discussions)
+- **Issues:** [Report an issue](https://github.com/pmxbenchmarks/pmx_benchmarks/issues)
 
 ## 🏛️ Governance
 
 This initiative is associated with the International Society of Pharmacometrics (ISoP).
 
-For more information, see our [About page](https://korsbo.github.io/pmx_benchmarks/about.html).
-
----
-
-Built with [Quarto](https://quarto.org/) • Hosted on [GitHub Pages](https://pages.github.com/)
+For more information, see our [About page](https://pmxbenchmarks.github.io/pmx_benchmarks/about.html).
