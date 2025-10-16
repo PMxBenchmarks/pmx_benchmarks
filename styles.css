@@ -6,6 +6,13 @@
   --accent-color: #e74c3c;
 }
 
+/* Dark mode color adjustments */
+[data-bs-theme="dark"] {
+  --primary-color: #4a5f7f;
+  --secondary-color: #5dade2;
+  --accent-color: #ec7063;
+}
+
 /* Improve code block styling */
 pre {
   border-radius: 5px;
@@ -25,6 +32,10 @@ table {
   background-color: #f8f9fa;
 }
 
+[data-bs-theme="dark"] .callout {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Benchmark card styling */
 .benchmark-card {
   border: 1px solid #dee2e6;
@@ -36,4 +47,34 @@ table {
 
 .benchmark-card:hover {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+[data-bs-theme="dark"] .benchmark-card {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-bs-theme="dark"] .benchmark-card:hover {
+  box-shadow: 0 4px 6px rgba(255,255,255,0.1);
+}
+
+/* Improve link visibility in dark mode */
+[data-bs-theme="dark"] a {
+  color: var(--secondary-color);
+}
+
+[data-bs-theme="dark"] a:hover {
+  color: #85c1e9;
+}
+
+/* Better code highlighting in dark mode */
+[data-bs-theme="dark"] code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+/* Horizontal rule styling */
+hr {
+  margin: 2em 0;
+  opacity: 0.2;
 }

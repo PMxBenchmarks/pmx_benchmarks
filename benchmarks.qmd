@@ -21,14 +21,17 @@ All benchmarks are freely available under their specified licenses. You can:
 
 ## Benchmarks
 
-*Benchmark listings will appear here as they are submitted and accepted.*
+### Example PK Model Selection
 
-### Example: Coming Soon
+A synthetic two-compartment pharmacokinetic dataset for evaluating model selection methodologies.
 
-The first benchmarks are currently under review. Check back soon!
+- **Authors**: Jane Researcher, John Modeler
+- **Data Type**: Synthetic
+- **Subjects**: 200 (140 train, 60 test)
+- **Tasks**: Structural model selection, covariate selection, prediction accuracy
+
+[View Full Documentation](benchmarks/example-pk-model-selection/index.qmd) | [Download Data](https://github.com/korsbo/pmx_benchmarks/tree/main/benchmarks/example-pk-model-selection/data)
 
 ---
 
-## Contributing a Benchmark
-
-Interested in submitting your own benchmark? See our [submission guide](submission-guide.qmd) for detailed instructions.
+*More benchmarks will appear here as they are submitted and accepted. Want to contribute? See our [submission guide](submission-guide.qmd).*
