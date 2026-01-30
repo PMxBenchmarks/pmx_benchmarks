@@ -4,3 +4,4 @@
 *.rds filter=lfs diff=lfs merge=lfs -text
 *.sas7bdat filter=lfs diff=lfs merge=lfs -text
 *.xpt filter=lfs diff=lfs merge=lfs -text
+benchmarks/idr-covariate-discovery/data/*.csv filter=lfs diff=lfs merge=lfs -text
