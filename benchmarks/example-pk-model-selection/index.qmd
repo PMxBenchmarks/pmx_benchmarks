@@ -1,12 +1,22 @@
 ---
 title: "Example PK Model Selection Benchmark"
 subtitle: "A synthetic two-compartment model with covariates"
+description: "A synthetic two-compartment pharmacokinetic dataset for evaluating structural and covariate model selection methodologies."
 author:
   - name: Jane Researcher
     affiliation: Example University
   - name: John Modeler
     affiliation: Pharma Institute
 date: 2025-10-16
+categories:
+  - synthetic
+  - pharmacokinetics
+  - model-selection
+n-subjects: 200
+n-train: 140
+n-test: 60
+task: "Model selection"
+metric: "AIC/BIC"
 ---
 
 ## Abstract

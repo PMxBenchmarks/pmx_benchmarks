@@ -7,28 +7,46 @@ Use this template when creating a new benchmark submission.
 ```
 benchmarks/<your-dataset-name>/
 ├── index.qmd                    # Main documentation (required)
-├── metadata.yml                 # Machine-readable metadata (required)
 ├── data/
 │   ├── train.csv               # Training dataset (required)
 │   ├── test.csv                # Test dataset (required)
 │   └── data-dictionary.csv     # Column descriptions (required)
-└── README.md                   # Quick reference (optional, auto-generated)
+├── scripts/                    # Data generation code (if synthetic)
+│   └── generate_data.jl        # or .py, .R, etc.
+└── assets/                     # Figures, tables (optional)
 ```
 
-## index.qmd Template
+## index.qmd Frontmatter
 
-```markdown
+The frontmatter is the single source of metadata. Keep it minimal:
+
+```yaml
 ---
+# Required
 title: "Your Benchmark Title"
-subtitle: "Brief subtitle"
+subtitle: "Brief one-line description"
+description: "2-3 sentence summary for the listing page."
 author:
   - name: Your Name
     affiliation: Your Institution
-  - name: Co-author Name
-    affiliation: Their Institution
 date: YYYY-MM-DD
----
+categories:          # For filtering on the website
+  - synthetic        # or: real-world, semi-synthetic
+  - pk               # or: pd, pk-pd
+  - your-task-type   # e.g., model-selection, predictive-modeling
 
+# Optional but recommended
+n-subjects: 100
+n-train: 70
+n-test: 30
+task: "Brief task name"
+metric: "Primary evaluation metric"
+---
+```
+
+## index.qmd Content Sections
+
+```markdown
 ## Abstract
 
 Brief overview of the benchmark (2-3 sentences).
@@ -39,54 +57,27 @@ Context and motivation for this benchmark.
 
 ## Data Generation
 
-### True Model Structure
-
-Mathematical description of the data-generating model.
-
-### Parameter Values
-
-List of parameters used.
-
-### Variability
-
-Description of random effects and error models.
-
-### Study Design
-
-Sample size, dosing regimen, sampling schedule, dropout.
+Description of how the data was generated (for synthetic) or collected (for real).
+Include model equations, parameter values, variability, study design.
 
 ## Dataset Description
 
-### Variables
-
 Key variables with brief descriptions. Reference data-dictionary.csv.
+Include sample sizes and any important notes about the data structure.
 
-### Sample Size
+## Task
 
-Training and test set sizes.
-
-## Tasks
-
-### Task 1: [Name]
-
-**Objective:** Clear description
-
-**Evaluation Metric:** Specific metric(s)
-
-### Task 2: [Name]
-
-...
+Clear description of the primary task.
+- **Objective:** What should the model do?
+- **Evaluation Metric:** How is performance measured?
 
 ## Train/Test Split
 
 Description and rationale for the split.
 
-## Usage Example
+## Reproducibility
 
-```python
-import pandas as pd
-train = pd.read_csv('data/train.csv')
-```
+How to regenerate the data (if synthetic). Software requirements.
 
 ## References
 
@@ -101,50 +92,22 @@ License information (typically CC-BY-4.0).
 How to cite this benchmark.
 ```
 
-## metadata.yml Template
-
-```yaml
-name: your-dataset-name
-title: Your Full Benchmark Title
-version: 1.0.0
-date: 2025-10-16
-authors:
-  - name: Your Name
-    affiliation: Your Institution
-    email: your.email@institution.edu
-description: Brief description of the benchmark
-keywords:
-  - keyword1
-  - keyword2
-data_type: synthetic  # or semi-synthetic, real
-therapeutic_area: general  # or specific area
-n_subjects: 100
-n_subjects_train: 70
-n_subjects_test: 30
-n_observations: 500
-n_observations_train: 350
-n_observations_test: 150
-tasks:
-  - name: task1
-    description: Task description
-    metric: RMSE
-license: CC-BY-4.0
-doi: TBD  # Will be assigned upon acceptance
+How to cite this benchmark.
 ```
 
 ## data-dictionary.csv Template
 
 ```csv
-column_name,description,units,type,coding
-ID,Subject identifier,-,integer,1-N
-TIME,Time since first dose,hours,numeric,>=0
+column_name,description,units,type
+ID,Subject identifier,NA,integer
+TIME,Time since first dose,hours,numeric
+DV,Dependent variable,mg/L,numeric
 ...
 ```
 
 ## Tips
 
-1. **Be thorough**: Complete documentation speeds up review
-2. **Use the example**: `benchmarks/example-pk-model-selection/` is a good reference
-3. **Test locally**: Render with Quarto before submitting
-4. **Validate data**: Run validation scripts locally
-5. **Clear naming**: Use lowercase-with-dashes for directory names
+1. **Keep it simple**: The frontmatter is your metadata — no separate metadata.yml needed
+2. **Use the example**: `benchmarks/example-pk-model-selection/` and `benchmarks/idr-covariate-discovery/` are good references
+3. **Test locally**: Run `quarto preview index.qmd` in your benchmark folder
+4. **Clear naming**: Use lowercase_with_underscores for directory names
