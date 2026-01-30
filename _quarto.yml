@@ -22,6 +22,8 @@ website:
     right:
       - icon: github
         href: https://github.com/korsbo/pmx_benchmarks
+    search: true
+
   
   page-footer:
     center: "Pharmacometrics Benchmarks Initiative | Associated with ISoP"
