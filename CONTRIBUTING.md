@@ -79,12 +79,12 @@ quarto preview
 Before submitting a PR:
 
 ```bash
-# Test Quarto rendering
-quarto render
+# Preview your benchmark locally
+cd benchmarks/your-benchmark-name/
+quarto preview index.qmd
 
-# Run validation scripts (if adding/modifying benchmarks)
-python .github/scripts/validate_benchmark.py
-python .github/scripts/validate_data.py
+# Or preview the full site
+quarto preview
 ```
 
 ## Submission Guidelines
