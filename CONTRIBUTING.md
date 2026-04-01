@@ -56,6 +56,7 @@ Found a bug or have a suggestion? [Open an issue](https://github.com/korsbo/pmx_
 - [Quarto](https://quarto.org/) (for building the website)
 - Python 3.8+ (for validation scripts)
 - Git
+- [Git LFS](https://git-lfs.github.com/) (for benchmark data files — install once with `git lfs install`)
 
 ### Local Setup
 
@@ -72,6 +73,40 @@ pip install pandas pyyaml jsonschema
 
 # Preview the website locally
 quarto preview
+```
+
+### Large Data Files
+
+Benchmark data files are stored using git-lfs (for files up to ~2 GB) or
+[dvs](https://github.com/a2-ai/dvs) blob storage (for files > 100 MB or > 2 GB).
+
+| File size | Method |
+|---|---|
+| < 100 MB | git-lfs — automatic, no extra steps |
+| 100 MB – 2 GB | git-lfs, or dvs if bandwidth is a concern |
+| > 2 GB | dvs required |
+
+**git-lfs setup (run once after cloning):**
+
+```bash
+git lfs install
+```
+
+Git will then automatically handle tracked file types (`*.csv`, `*.parquet`, `*.RData`,
+`*.rds`, `*.sas7bdat`, `*.xpt`) when you commit or pull.
+
+**dvs setup (only needed for files > 100 MB):**
+
+```bash
+Rscript scripts/setup_dvs.R
+```
+
+Edit `dvs.yaml` with the credentials provided by the maintainers, then:
+
+```r
+dvs::dvs_pull()   # fetch existing dvs-tracked files
+dvs::dvs_add("benchmarks/<name>/data/train.csv")  # register a new large file
+dvs::dvs_push()   # upload after adding
 ```
 
 ### Testing Your Changes
