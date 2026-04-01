@@ -1,0 +1,21 @@
+# dvs configuration for PMX Benchmarks
+# See https://github.com/a2-ai/dvs for full documentation.
+#
+# dvs is used for benchmark data files > 100 MB (or > 2 GB, where git-lfs
+# cannot be used). Files are stored in cloud blob storage; only metadata
+# is committed to git.
+#
+# ── Setup ─────────────────────────────────────────────────────────────────────
+# 1. Install the dvs R package:  install.packages("dvs")
+# 2. Configure your credentials for the chosen backend (see below).
+# 3. Run: dvs::dvs_pull()  to fetch tracked files after cloning.
+#
+# ── Backend configuration ─────────────────────────────────────────────────────
+# Set type to one of: s3, azure, gcs
+# Obtain credentials from the repository maintainers.
+
+storage:
+  type: s3                        # TBD by org — s3 | azure | gcs
+  bucket: pmx-benchmarks-data     # TBD by org
+  prefix: benchmarks/
+  # region: us-east-1             # uncomment for S3
