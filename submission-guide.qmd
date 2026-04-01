@@ -125,6 +125,136 @@ tasks:
 license: CC-BY-4.0
 ```
 
+## Step-by-Step Guide
+
+This guide walks through a complete submission from scratch. If you are comfortable
+with GitHub and git, skip to [Submission Process](#submission-process) below.
+
+### Prerequisites
+
+Install the following before starting:
+
+1. **A GitHub account** — [Sign up at github.com](https://github.com/join)
+2. **Git** — [git-scm.com/downloads](https://git-scm.com/downloads)
+   - macOS: `brew install git`
+   - Windows: use the Git for Windows installer
+   - Linux: `sudo apt install git` or `sudo yum install git`
+3. **Git LFS** — [git-lfs.github.com](https://git-lfs.github.com/)
+   - macOS: `brew install git-lfs`
+   - Windows: included in Git for Windows
+   - Linux: `sudo apt install git-lfs`
+4. **Quarto** — [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
+
+### 1. Fork the Repository
+
+1. Go to [github.com/PMxBenchmarks/pmx_benchmarks](https://github.com/PMxBenchmarks/pmx_benchmarks)
+2. Click **Fork** (top-right corner)
+3. Select your GitHub account as the destination
+
+You now have your own copy at `github.com/<your-username>/pmx_benchmarks`.
+
+### 2. Clone Your Fork
+
+```bash
+git clone https://github.com/<your-username>/pmx_benchmarks.git
+cd pmx_benchmarks
+```
+
+### 3. Set Up Git LFS
+
+Run once after cloning:
+
+```bash
+git lfs install
+```
+
+Verify tracking is active:
+
+```bash
+git lfs track
+```
+
+You should see `*.csv`, `*.parquet`, `*.RData`, and other data formats listed.
+
+### 4. Create a Branch
+
+```bash
+git checkout -b benchmark/<your-dataset-name>
+```
+
+Example: `git checkout -b benchmark/idr-pkpd-covariate`
+
+### 5. Add Your Benchmark
+
+Create the directory structure:
+
+```bash
+mkdir -p benchmarks/<your-dataset-name>/data
+```
+
+Use `BENCHMARK_TEMPLATE.md` and `benchmarks/example-pk-model-selection/` as references.
+Required files:
+
+```
+benchmarks/<your-dataset-name>/
+├── index.qmd
+├── metadata.yml
+└── data/
+    ├── train.csv
+    ├── test.csv
+    └── data-dictionary.csv
+```
+
+### 6. Validate Locally
+
+```bash
+# Check Quarto renders without errors
+quarto render benchmarks/<your-dataset-name>/index.qmd
+
+# Run validation scripts
+python .github/scripts/validate_benchmark.py
+python .github/scripts/validate_data.py
+```
+
+Fix any errors before continuing.
+
+### 7. Commit and Push
+
+```bash
+git add benchmarks/<your-dataset-name>/
+git commit -m "Add <your-dataset-name> benchmark"
+git push origin benchmark/<your-dataset-name>
+```
+
+### 8. Open a Pull Request
+
+1. Go to your fork: `github.com/<your-username>/pmx_benchmarks`
+2. Click **Compare & pull request** (appears after pushing)
+3. Set base repository to `PMxBenchmarks/pmx_benchmarks`, base branch `main`
+4. Fill in the PR template completely
+5. Click **Create pull request**
+
+### 9. Respond to Review
+
+Reviewers will comment on your PR. Push updated commits to the **same branch** —
+do not open a new PR. The existing PR updates automatically.
+
+---
+
+### Large Data Files
+
+If any data file exceeds 100 MB, use dvs instead of committing it directly to git.
+See `scripts/setup_dvs.R` for setup and `dvs.yaml` for backend configuration.
+Contact the maintainers for storage credentials.
+
+| File size | Method |
+|---|---|
+| < 100 MB | git-lfs (handled automatically) |
+| 100 MB – 2 GB | git-lfs, or dvs if bandwidth is a concern |
+| > 2 GB | dvs required — contact maintainers |
+
+---
+
 ## Submission Process
 
 ### Step 1: Prepare Your Benchmark
