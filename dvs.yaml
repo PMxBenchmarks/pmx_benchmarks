@@ -6,7 +6,7 @@
 # is committed to git.
 #
 # ── Setup ─────────────────────────────────────────────────────────────────────
-# 1. Install the dvs R package:  install.packages("dvs")
+# 1. Install the dvs R package:  Rscript scripts/setup_dvs.R
 # 2. Configure your credentials for the chosen backend (see below).
 # 3. Run: dvs::dvs_pull()  to fetch tracked files after cloning.
 #

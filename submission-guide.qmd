@@ -241,11 +241,11 @@ do not open a new PR. The existing PR updates automatically.
 
 ---
 
-### Large Data Files
+## Large Data Files
 
-If any data file exceeds 100 MB, use dvs instead of committing it directly to git.
-See `scripts/setup_dvs.R` for setup and `dvs.yaml` for backend configuration.
-Contact the maintainers for storage credentials.
+If any data file exceeds 100 MB, consider using dvs for blob storage instead of
+git-lfs (required for files > 2 GB). See `scripts/setup_dvs.R` for setup and
+`dvs.yaml` for backend configuration. Contact the maintainers for storage credentials.
 
 | File size | Method |
 |---|---|

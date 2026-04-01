@@ -75,6 +75,21 @@ pip install pandas pyyaml jsonschema
 quarto preview
 ```
 
+### Testing Your Changes
+
+Before submitting a PR:
+
+```bash
+# Test Quarto rendering
+quarto render
+
+# Run validation scripts (if adding/modifying benchmarks)
+python .github/scripts/validate_benchmark.py
+python .github/scripts/validate_data.py
+```
+
+## Submission Guidelines
+
 ### Large Data Files
 
 Benchmark data files are stored using git-lfs (for files up to ~2 GB) or
@@ -108,21 +123,6 @@ dvs::dvs_pull()   # fetch existing dvs-tracked files
 dvs::dvs_add("benchmarks/<name>/data/train.csv")  # register a new large file
 dvs::dvs_push()   # upload after adding
 ```
-
-### Testing Your Changes
-
-Before submitting a PR:
-
-```bash
-# Test Quarto rendering
-quarto render
-
-# Run validation scripts (if adding/modifying benchmarks)
-python .github/scripts/validate_benchmark.py
-python .github/scripts/validate_data.py
-```
-
-## Submission Guidelines
 
 ### Benchmark Submissions
 
