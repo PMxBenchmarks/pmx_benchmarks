@@ -72,14 +72,14 @@ def test_missing_type_is_warning_not_error(tmp_path):
     task = regression_task()
     del task['type']
     errors = validate_tasks([task], tmp_path)
-    # Missing type produces a warning (returned in second element) not an error
+    # missing type is silently skipped by validate_tasks(); validate_metadata() handles
+    # the warning separately. validate_tasks() returns a flat list of errors only.
     assert errors == []
 
 
 # ── Rule 2: counterfactual cannot use individual_predictions ──────────────────
 
 def test_counterfactual_individual_predictions_is_error(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {})
     task = counterfactual_task(
         output_format={'type': 'individual_predictions', 'columns': ['ID', 'PRED']}
     )
@@ -127,6 +127,16 @@ def test_regression_with_scenario_is_error(tmp_path):
 
 def test_regression_with_truth_file_is_error(tmp_path):
     errors = validate_tasks([regression_task(truth_file='tasks/foo.yml')], tmp_path)
+    assert any("'truth_file' is not allowed" in e for e in errors)
+
+
+def test_classification_with_scenario_is_error(tmp_path):
+    errors = validate_tasks([classification_task(scenario='some intervention')], tmp_path)
+    assert any("'scenario' is not allowed" in e for e in errors)
+
+
+def test_classification_with_truth_file_is_error(tmp_path):
+    errors = validate_tasks([classification_task(truth_file='tasks/foo.yml')], tmp_path)
     assert any("'truth_file' is not allowed" in e for e in errors)
 
 
@@ -207,6 +217,15 @@ def test_auroc_with_class_predictions_is_error(tmp_path):
     )
     errors = validate_tasks([task], tmp_path)
     assert any('auroc' in e and 'probabilities' in e for e in errors)
+
+
+def test_auprc_with_class_predictions_is_error(tmp_path):
+    task = classification_task(
+        output_format={'type': 'class_predictions', 'columns': ['ID', 'CLASS']},
+        metric='auprc',
+    )
+    errors = validate_tasks([task], tmp_path)
+    assert any('auprc' in e and 'probabilities' in e for e in errors)
 
 
 def test_auroc_with_probabilities_is_ok(tmp_path):
