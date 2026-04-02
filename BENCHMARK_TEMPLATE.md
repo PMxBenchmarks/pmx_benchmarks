@@ -125,9 +125,31 @@ n_observations: 500
 n_observations_train: 350
 n_observations_test: 150
 tasks:
-  - name: task1
-    description: Task description
-    metric: RMSE
+  # Regression example — predict a continuous outcome on the test set
+  - name: prediction-accuracy
+    type: regression
+    description: Predict <outcome> in the test set
+    target: DV           # column name in test.csv containing ground truth
+    output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
+    metric: rmse         # rmse | mae | nrmse
+
+  # Classification example — predict a binary outcome
+  # - name: event-prediction
+  #   type: classification
+  #   description: Predict probability of <event>
+  #   output_format: {type: probabilities, columns: [ID, P_EVENT]}
+  #   metric: auroc      # auroc requires output_format.type: probabilities
+  #   # output_format: {type: class_predictions, columns: [ID, CLASS]}
+  #   # metric: accuracy | f1   (use these with class_predictions)
+
+  # Counterfactual example — aggregate distribution under an intervention
+  # - name: cmax-exceedance-2x-dose
+  #   type: counterfactual
+  #   description: Cmax distribution under 2x observed dose
+  #   scenario: "2x observed dose, same schedule"
+  #   output_format: {type: quantiles, quantiles: [0.1, 0.25, 0.5, 0.75, 0.9]}
+  #   truth_file: tasks/cmax_truth.yml   # pre-computed from generative model
+  #   metric: quantile_coverage
 license: CC-BY-4.0
 doi: TBD  # Will be assigned upon acceptance
 ```
