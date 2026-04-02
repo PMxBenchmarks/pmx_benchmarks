@@ -133,7 +133,7 @@ tasks:
     output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
     metric: rmse         # rmse | mae | nrmse
 
-  # Classification example — predict a binary outcome
+  # Classification example — predict a binary or multi-class outcome
   # - name: event-prediction
   #   type: classification
   #   description: Predict probability of <event>

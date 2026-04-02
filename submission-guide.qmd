@@ -116,12 +116,12 @@ therapeutic_area: oncology
 n_subjects: 250
 n_observations: 2500
 tasks:
-  - name: task1
-    description: Model selection challenge
-    metric: AIC
-  - name: task2
-    description: Prediction accuracy
-    metric: RMSE
+  - name: prediction-accuracy
+    type: regression
+    description: Predict plasma concentrations in the test set
+    target: DV
+    output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
+    metric: rmse
 license: CC-BY-4.0
 ```
 
@@ -255,12 +255,12 @@ git-lfs (required for files > 2 GB). See `scripts/setup_dvs.R` for setup and
 
 ---
 
-### Task Schema
+## Task Schema
 
-Each task in `metadata.yml` must declare a `type`, `output_format`, and `metric`.
+Each task in `metadata.yml` should declare a `type`, `output_format`, and `metric`. The validator warns when `type` is absent and enforces `output_format` and `metric` only when `type` is provided.
 Three task types are supported:
 
-#### Regression
+### Regression
 
 Predict a continuous outcome for each row in the test set.
 
@@ -272,7 +272,7 @@ Predict a continuous outcome for each row in the test set.
   metric: rmse                  # rmse | mae | nrmse
 ```
 
-#### Classification
+### Classification
 
 Predict a binary or multi-class outcome.
 
@@ -290,7 +290,7 @@ Predict a binary or multi-class outcome.
   metric: accuracy
 ```
 
-#### Counterfactual
+### Counterfactual
 
 Report aggregate statistics under a hypothetical intervention. Output must be
 aggregates — not individual-level predictions.
