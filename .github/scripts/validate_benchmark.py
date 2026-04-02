@@ -63,10 +63,13 @@ def validate_metadata(metadata_path):
                 for i, task in enumerate(metadata['tasks']):
                     if 'name' not in task:
                         errors.append(f"Task {i+1} missing 'name' field")
-                    if 'description' not in task:
-                        warnings.append(f"Task {i+1} missing 'description' field")
-                    if 'metric' not in task:
-                        warnings.append(f"Task {i+1} missing 'metric' field")
+                    if 'type' not in task:
+                        warnings.append(
+                            f"Task {i+1} ({task.get('name', '?')}) missing 'type' field "
+                            f"(expected: regression | classification | counterfactual)"
+                        )
+                task_errors = validate_tasks(metadata['tasks'], metadata_path.parent)
+                errors.extend(task_errors)
         
     except yaml.YAMLError as e:
         errors.append(f"Invalid YAML syntax: {e}")
@@ -189,6 +192,7 @@ def validate_tasks(tasks, benchmark_path):
                         )
 
     return errors
+
 
 def main():
     """Main validation function."""
