@@ -26,13 +26,22 @@ n_observations_train: 673
 n_observations_test: 287
 tasks:
   - name: structural-model-selection
-    description: Identify the correct structural model (one, two, or three compartment)
-    metric: AIC
+    type: classification
+    description: Identify the correct structural model from {1cmt, 2cmt, 3cmt}
+    output_format: {type: class_predictions, columns: [MODEL_SELECTED]}
+    metric: accuracy
+
   - name: covariate-model-selection
-    description: Identify true covariate relationships (weight on CL and Vc)
-    metric: TPR/FPR
+    type: classification
+    description: Identify which covariates have true effects on CL and Vc
+    output_format: {type: class_predictions, columns: [COVARIATE, SELECTED]}
+    metric: f1
+
   - name: prediction-accuracy
-    description: Predict concentrations in test set
-    metric: RMSE
+    type: regression
+    description: Predict plasma concentrations in the test set
+    target: DV
+    output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
+    metric: rmse
 license: CC-BY-4.0
 doi: TBD
