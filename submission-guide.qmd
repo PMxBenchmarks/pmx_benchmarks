@@ -243,15 +243,9 @@ do not open a new PR. The existing PR updates automatically.
 
 ## Large Data Files
 
-If any data file exceeds 100 MB, consider using dvs for blob storage instead of
-git-lfs (required for files > 2 GB). See `scripts/setup_dvs.R` for setup and
-`dvs.yaml` for backend configuration. Contact the maintainers for storage credentials.
-
-| File size | Method |
-|---|---|
-| < 100 MB | git-lfs (handled automatically) |
-| 100 MB – 2 GB | git-lfs, or dvs if bandwidth is a concern |
-| > 2 GB | dvs required — contact maintainers |
+All benchmark data files are stored using git-lfs. Run `git lfs install` once after
+cloning and git will automatically handle tracked file types (`*.csv`, `*.parquet`,
+`*.RData`, `*.rds`, `*.sas7bdat`, `*.xpt`).
 
 ---
 
@@ -277,13 +271,13 @@ Predict a continuous outcome for each row in the test set.
 Predict a binary or multi-class outcome.
 
 ```yaml
-# Soft predictions (required for rank-based metrics like auroc)
+# Soft predictions
 - name: dropout-prediction
   type: classification
   output_format: {type: probabilities, columns: [ID, P_DROPOUT]}
   metric: auroc
 
-# Hard predictions (use with accuracy, f1)
+# Hard predictions
 - name: model-selection
   type: classification
   output_format: {type: class_predictions, columns: [MODEL_SELECTED]}
@@ -299,14 +293,14 @@ aggregates — not individual-level predictions.
 - name: cmax-exceedance-2x-dose
   type: counterfactual
   scenario: "2x observed dose, same schedule"
-  output_format: {type: quantiles, quantiles: [0.1, 0.25, 0.5, 0.75, 0.9]}
+  output_format: {type: summary_stats, stats: [q10, q25, q50, q75, q90]}
   truth_file: tasks/cmax_truth.yml
   metric: quantile_coverage
 ```
 
 The `truth_file` must be deposited in `tasks/` and contain pre-computed ground truth
-from your generative model. Its `estimates` keys must exactly match the
-values declared in `output_format`:
+from your generative model. Its `estimates` keys must exactly match the names declared
+in `output_format.stats`:
 
 ```yaml
 # tasks/cmax_truth.yml
@@ -314,15 +308,15 @@ scenario: "2x observed dose, same schedule"
 n_sim: 10000
 population: all
 estimates:
-  0.1: 45.2
-  0.25: 58.7
-  0.5: 74.3
-  0.75: 95.1
-  0.9: 118.4
+  q10: 45.2
+  q25: 58.7
+  q50: 74.3
+  q75: 95.1
+  q90: 118.4
 ```
 
-Other supported counterfactual output types: `summary_stats` (with `stats: [mean, sd, ...]`)
-and `probability` (with `threshold` and `direction: above|below`; truth file needs `p` key).
+The other supported counterfactual output type is `probability` (with `threshold` and
+`direction: above|below`; truth file needs a single `p` key).
 
 One metric per task — create separate tasks if you want multiple metrics evaluated.
 

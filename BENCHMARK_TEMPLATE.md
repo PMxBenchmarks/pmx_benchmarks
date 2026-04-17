@@ -147,7 +147,7 @@ tasks:
   #   type: counterfactual
   #   description: Cmax distribution under 2x observed dose
   #   scenario: "2x observed dose, same schedule"
-  #   output_format: {type: quantiles, quantiles: [0.1, 0.25, 0.5, 0.75, 0.9]}
+  #   output_format: {type: summary_stats, stats: [q10, q25, q50, q75, q90]}
   #   truth_file: tasks/cmax_truth.yml   # pre-computed from generative model
   #   metric: quantile_coverage
 license: CC-BY-4.0

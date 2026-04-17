@@ -37,7 +37,7 @@ def counterfactual_task(truth_file='tasks/cmax_truth.yml', **overrides):
         'name': 'cmax-exceedance',
         'type': 'counterfactual',
         'scenario': '2x observed dose, same schedule',
-        'output_format': {'type': 'quantiles', 'quantiles': [0.1, 0.5, 0.9]},
+        'output_format': {'type': 'summary_stats', 'stats': ['q10', 'q50', 'q90']},
         'truth_file': truth_file,
         'metric': 'quantile_coverage',
     }
@@ -57,7 +57,7 @@ def write_truth_file(path, estimates):
 # ── Rule 1: type must be valid ────────────────────────────────────────────────
 
 def test_valid_tasks_produce_no_errors(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {0.1: 1.0, 0.5: 2.0, 0.9: 3.0})
+    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {'q10': 1.0, 'q50': 2.0, 'q90': 3.0})
     tasks = [regression_task(), classification_task(), counterfactual_task()]
     errors = validate_tasks(tasks, tmp_path)
     assert errors == []
@@ -90,7 +90,7 @@ def test_counterfactual_individual_predictions_is_error(tmp_path):
 # ── Rule 3: counterfactual requires scenario and truth_file ───────────────────
 
 def test_counterfactual_missing_scenario_is_error(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {0.1: 1.0, 0.5: 2.0, 0.9: 3.0})
+    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {'q10': 1.0, 'q50': 2.0, 'q90': 3.0})
     task = counterfactual_task()
     del task['scenario']
     errors = validate_tasks([task], tmp_path)
@@ -105,7 +105,7 @@ def test_counterfactual_missing_truth_file_field_is_error(tmp_path):
 
 
 def test_counterfactual_with_target_field_is_error(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {0.1: 1.0, 0.5: 2.0, 0.9: 3.0})
+    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {'q10': 1.0, 'q50': 2.0, 'q90': 3.0})
     task = counterfactual_task(target='DV')
     errors = validate_tasks([task], tmp_path)
     assert any("'target' is not allowed" in e for e in errors)
@@ -150,24 +150,6 @@ def test_counterfactual_truth_file_not_on_disk_is_error(tmp_path):
 
 # ── Rule 6: truth_file estimates keys must match output_format ────────────────
 
-def test_quantile_keys_match_is_ok(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {0.1: 1.0, 0.5: 2.0, 0.9: 3.0})
-    task = counterfactual_task(
-        output_format={'type': 'quantiles', 'quantiles': [0.1, 0.5, 0.9]}
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert errors == []
-
-
-def test_quantile_keys_mismatch_is_error(tmp_path):
-    write_truth_file(tmp_path / 'tasks/cmax_truth.yml', {0.1: 1.0, 0.5: 2.0})  # missing 0.9
-    task = counterfactual_task(
-        output_format={'type': 'quantiles', 'quantiles': [0.1, 0.5, 0.9]}
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert any('do not match declared quantiles' in e for e in errors)
-
-
 def test_summary_stats_keys_match_is_ok(tmp_path):
     write_truth_file(tmp_path / 'tasks/er_truth.yml', {'mean': 12.4, 'sd': 3.1})
     task = counterfactual_task(
@@ -207,40 +189,3 @@ def test_probability_truth_file_missing_p_key_is_error(tmp_path):
     errors = validate_tasks([task], tmp_path)
     assert any("key 'p'" in e for e in errors)
 
-
-# ── Rule 7: rank-based metrics require probabilities ─────────────────────────
-
-def test_auroc_with_class_predictions_is_error(tmp_path):
-    task = classification_task(
-        output_format={'type': 'class_predictions', 'columns': ['ID', 'CLASS']},
-        metric='auroc',
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert any('auroc' in e and 'probabilities' in e for e in errors)
-
-
-def test_auprc_with_class_predictions_is_error(tmp_path):
-    task = classification_task(
-        output_format={'type': 'class_predictions', 'columns': ['ID', 'CLASS']},
-        metric='auprc',
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert any('auprc' in e and 'probabilities' in e for e in errors)
-
-
-def test_auroc_with_probabilities_is_ok(tmp_path):
-    task = classification_task(
-        output_format={'type': 'probabilities', 'columns': ['ID', 'P_EVENT']},
-        metric='auroc',
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert errors == []
-
-
-def test_accuracy_with_class_predictions_is_ok(tmp_path):
-    task = classification_task(
-        output_format={'type': 'class_predictions', 'columns': ['ID', 'CLASS']},
-        metric='accuracy',
-    )
-    errors = validate_tasks([task], tmp_path)
-    assert errors == []

@@ -79,8 +79,7 @@ def validate_metadata(metadata_path):
     return errors, warnings
 
 VALID_TASK_TYPES = {'regression', 'classification', 'counterfactual'}
-VALID_CF_OUTPUT_TYPES = {'quantiles', 'summary_stats', 'probability'}
-RANK_BASED_METRICS = {'auroc', 'auprc'}
+VALID_CF_OUTPUT_TYPES = {'summary_stats', 'probability'}
 
 
 def validate_tasks(tasks, benchmark_path):
@@ -120,15 +119,6 @@ def validate_tasks(tasks, benchmark_path):
             if not task.get('target'):
                 errors.append(f"{label}: 'target' is required for regression tasks")
 
-        if task_type == 'classification':
-            of_type = output_format.get('type')
-            metric = task.get('metric', '')
-            if metric in RANK_BASED_METRICS and of_type != 'probabilities':
-                errors.append(
-                    f"{label}: metric '{metric}' requires output_format.type 'probabilities', "
-                    f"got '{of_type}'"
-                )
-
         if task_type == 'counterfactual':
             of_type = output_format.get('type')
 
@@ -164,15 +154,7 @@ def validate_tasks(tasks, benchmark_path):
                             truth = yaml.safe_load(f)
                         estimates = truth.get('estimates', {})
 
-                        if of_type == 'quantiles':
-                            declared = set(output_format.get('quantiles', []))
-                            actual = set(estimates.keys())
-                            if declared != actual:
-                                errors.append(
-                                    f"{label}: truth_file estimates keys {sorted(actual)} "
-                                    f"do not match declared quantiles {sorted(declared)}"
-                                )
-                        elif of_type == 'summary_stats':
+                        if of_type == 'summary_stats':
                             declared = set(output_format.get('stats', []))
                             actual = set(estimates.keys())
                             if declared != actual:
