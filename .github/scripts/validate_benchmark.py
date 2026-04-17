@@ -63,10 +63,13 @@ def validate_metadata(metadata_path):
                 for i, task in enumerate(metadata['tasks']):
                     if 'name' not in task:
                         errors.append(f"Task {i+1} missing 'name' field")
-                    if 'description' not in task:
-                        warnings.append(f"Task {i+1} missing 'description' field")
-                    if 'metric' not in task:
-                        warnings.append(f"Task {i+1} missing 'metric' field")
+                    if 'type' not in task:
+                        warnings.append(
+                            f"Task {i+1} ({task.get('name', '?')}) missing 'type' field "
+                            f"(expected: regression | classification | counterfactual)"
+                        )
+                task_errors = validate_tasks(metadata['tasks'], metadata_path.parent)
+                errors.extend(task_errors)
         
     except yaml.YAMLError as e:
         errors.append(f"Invalid YAML syntax: {e}")
@@ -74,6 +77,104 @@ def validate_metadata(metadata_path):
         errors.append("metadata.yml file not found")
     
     return errors, warnings
+
+VALID_TASK_TYPES = {'regression', 'classification', 'counterfactual'}
+VALID_CF_OUTPUT_TYPES = {'summary_stats', 'probability'}
+
+
+def validate_tasks(tasks, benchmark_path):
+    """Validate task schema: types, required fields, output_format, truth_file consistency."""
+    errors = []
+
+    for i, task in enumerate(tasks):
+        label = f"Task {i+1} ({task.get('name', '?')})"
+        task_type = task.get('type')
+
+        if not task_type:
+            # type is recommended but not required — handled as warning in validate_metadata
+            continue
+
+        if task_type not in VALID_TASK_TYPES:
+            errors.append(
+                f"{label}: invalid type '{task_type}', "
+                f"must be one of {sorted(VALID_TASK_TYPES)}"
+            )
+            continue
+
+        if not task.get('metric'):
+            errors.append(f"{label}: missing required field 'metric'")
+
+        output_format = task.get('output_format')
+        if not output_format:
+            errors.append(f"{label}: missing required field 'output_format'")
+            continue
+
+        if task_type in ('regression', 'classification'):
+            if task.get('scenario'):
+                errors.append(f"{label}: 'scenario' is not allowed for {task_type} tasks")
+            if task.get('truth_file'):
+                errors.append(f"{label}: 'truth_file' is not allowed for {task_type} tasks")
+
+        if task_type == 'regression':
+            if not task.get('target'):
+                errors.append(f"{label}: 'target' is required for regression tasks")
+
+        if task_type == 'counterfactual':
+            of_type = output_format.get('type')
+
+            if of_type == 'individual_predictions':
+                errors.append(
+                    f"{label}: output_format.type 'individual_predictions' is not valid "
+                    f"for counterfactual tasks"
+                )
+            elif of_type not in VALID_CF_OUTPUT_TYPES:
+                errors.append(
+                    f"{label}: invalid counterfactual output_format.type '{of_type}', "
+                    f"must be one of {sorted(VALID_CF_OUTPUT_TYPES)}"
+                )
+
+            if task.get('target'):
+                errors.append(f"{label}: 'target' is not allowed for counterfactual tasks")
+
+            if not task.get('scenario'):
+                errors.append(f"{label}: 'scenario' is required for counterfactual tasks")
+
+            truth_file = task.get('truth_file')
+            if not truth_file:
+                errors.append(f"{label}: 'truth_file' is required for counterfactual tasks")
+            else:
+                truth_path = benchmark_path / truth_file
+                if not truth_path.exists():
+                    errors.append(
+                        f"{label}: truth_file '{truth_file}' not found at {truth_path}"
+                    )
+                else:
+                    try:
+                        with open(truth_path) as f:
+                            truth = yaml.safe_load(f)
+                        estimates = truth.get('estimates', {})
+
+                        if of_type == 'summary_stats':
+                            declared = set(output_format.get('stats', []))
+                            actual = set(estimates.keys())
+                            if declared != actual:
+                                errors.append(
+                                    f"{label}: truth_file estimates keys {sorted(actual)} "
+                                    f"do not match declared stats {sorted(declared)}"
+                                )
+                        elif of_type == 'probability':
+                            if 'p' not in estimates:
+                                errors.append(
+                                    f"{label}: truth_file estimates must contain key 'p' "
+                                    f"for output_format.type 'probability'"
+                                )
+                    except yaml.YAMLError as e:
+                        errors.append(
+                            f"{label}: truth_file '{truth_file}' has invalid YAML: {e}"
+                        )
+
+    return errors
+
 
 def main():
     """Main validation function."""

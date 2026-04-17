@@ -56,6 +56,7 @@ Found a bug or have a suggestion? [Open an issue](https://github.com/korsbo/pmx_
 - [Quarto](https://quarto.org/) (for building the website)
 - Python 3.8+ (for validation scripts)
 - Git
+- [Git LFS](https://git-lfs.github.com/) (for benchmark data files — install once with `git lfs install`)
 
 ### Local Setup
 
@@ -88,6 +89,19 @@ python .github/scripts/validate_data.py
 ```
 
 ## Submission Guidelines
+
+### Large Data Files
+
+Benchmark data files are stored using git-lfs.
+
+**git-lfs setup (run once after cloning):**
+
+```bash
+git lfs install
+```
+
+Git will then automatically handle tracked file types (`*.csv`, `*.parquet`, `*.RData`,
+`*.rds`, `*.sas7bdat`, `*.xpt`) when you commit or pull.
 
 ### Benchmark Submissions
 
