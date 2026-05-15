@@ -11,18 +11,6 @@ categories:
   - pk-pd
   - predictive-modeling
   - covariates
-n-subjects: 1300
-n-train: 300
-n-test: 1000
-task: "Predictive modeling"
-metric: "Marginal log-likelihood"
-keywords:
-  - pharmacodynamics
-  - indirect response
-  - predictive modeling
-  - nonlinear covariates
-  - synthetic data
-  - pk-pd
 ---
 
 ## Abstract
