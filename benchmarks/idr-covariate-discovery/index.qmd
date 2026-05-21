@@ -245,7 +245,8 @@ dataset were adapted from the example IDR model in the
 
 ## License
 
-This benchmark is released under the **MIT License**. Attribution is not legally
+This benchmark is released under the **MIT License** — full text in
+[`LICENSE.md`](LICENSE.md) alongside this document. Attribution is not legally
 required, but if you use this dataset in academic work, a citation to the
 benchmark page is appreciated.
 
