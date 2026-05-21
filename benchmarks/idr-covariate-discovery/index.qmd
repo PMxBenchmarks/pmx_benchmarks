@@ -180,17 +180,15 @@ $$
 \text{RMSE}_{\text{pd}} = \sqrt{\frac{1}{N_{\text{pd}}} \sum_{(i,t)} \left(y_{\text{pd},i,t} - \hat{y}_{\text{pd},i,t}\right)^2}
 $$
 
-Both numbers are reported and ranked separately.
+Both numbers are reported and ranked separately. Rows where the corresponding ground-truth `y_*` is missing in the test data are not scored.
 
-**Submission format.** A CSV `predictions.csv` with columns `id, time, pred_pk, pred_pd`, one row per `(id, time)` from the test set. Rows where the corresponding ground-truth `y_*` is missing in the test data are not scored, but the column must still be present (any placeholder value is fine).
-
-**Irreducible RMSE floor.** Even a model that perfectly recovers the true DGM cannot drive RMSE to zero: residual additive observation noise ($\sigma_{PK} = 0.02$ mg/L, $\sigma_{PD} = 0.05$) plus the contribution of the four random effects $\eta$ (which are *independent of covariates*) together set a lower bound that varies with `(covariate, time)`. The table below shows this floor — the RMSE achieved by the true data-generating model itself under covariate-only population prediction (Monte-Carlo–averaged over the $\eta$ distribution). No submission can do meaningfully better than these numbers.
+**Irreducible RMSE floor.** Even a model that perfectly recovers the true DGM cannot drive RMSE to zero: residual additive observation noise ($\sigma_{PK} = 0.02$ mg/L, $\sigma_{PD} = 0.05$) plus the contribution of the four random effects $\eta$ (which are *independent of covariates*) together set a lower bound that varies with `(covariate, time)`. The table below shows this floor — the RMSE achieved by the true data-generating model itself under covariate-only population prediction (Monte-Carlo–averaged over the $\eta$ distribution). No model can do meaningfully better than these numbers.
 
 ```{=html}
 {{< include assets/dgm_baseline_rmse.html >}}
 ```
 
-**Why RMSE and not marginal log-likelihood?** mLL — pharmacometrics' canonical metric — requires a tractable likelihood and integration over random effects, which not all submission classes (boosted trees, deep ML, some Bayesian approaches) natively provide. RMSE is a deliberate step down in pharmacometric realism, in exchange for portability across model classes: any covariate-consuming model can produce a point prediction. The trade is that RMSE measures only the conditional mean, not the full predictive distribution.
+**Why RMSE and not marginal log-likelihood?** mLL — pharmacometrics' canonical metric — requires a tractable likelihood and integration over random effects, which not all model classes (boosted trees, deep ML, some Bayesian approaches) natively provide. RMSE is a deliberate step down in pharmacometric realism, in exchange for portability across model classes: any covariate-consuming model can produce a point prediction. The trade is that RMSE measures only the conditional mean, not the full predictive distribution.
 
 **Notes.**
 
