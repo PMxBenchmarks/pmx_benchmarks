@@ -13,8 +13,8 @@ Output:
     ../data/test.csv   (1000 subjects)
 
 Reference:
-    Adapted from PaperMaterial_DeepNLME/experiment/idr.jl
-    Original paper: [DeepNLME paper citation]
+    Adapted from PaperMaterial_DeepNLME/experiment/idr.jl in the DeepPumas
+    project (https://github.com/PumasAI/DeepPumas.jl).
 
 Software:
     Developed for Pumas v2.8.0 but should be compatible with later v2.x versions.
@@ -97,7 +97,7 @@ truemod = @model begin
     K_a = tvK_a * exp(η[1] + 1.5 * (logistic(2 * c3 * c4) - 0.5))
     V_c = tvV_c
     K_out = tvK_out * exp(η[2] + 1.6 * (c5 / (c6 + c5) - 0.5))
-    S_max = tvS_max * exp(η[3] * 8 * (c1 / (10.0 + c1) - 0.476))
+    S_max = tvS_max * exp(η[3] + 8 * (c1 / (10.0 + c1) - 0.476))
     n = tvn * exp(η[4] + 0.1 * ((c2 / 20)^0.75 - 1))
     K_in = tvK_in
     CL = tvCL
@@ -214,17 +214,68 @@ testpop = read_pumas(df_test; observations=[:y_pk, :y_pd], covariates=[:c1, :c2,
 trainpop = read_pumas(df_train; observations=[:y_pk, :y_pd], covariates=[:c1, :c2, :c3, :c4, :c5, :c6])
 
 
-approximations = [FOCE(), LaplaceI()]
-_lls = mapreduce(vcat, approximations) do approx
-  ll_test = loglikelihood(truemod, testpop, p_true, approx)
-  ll_train = loglikelihood(truemod, trainpop, p_true, approx)
-  DataFrame(; approximation=string(approx), Train=ll_train, Test=ll_test)
+# =============================================================================
+# DGM baseline RMSE
+# =============================================================================
+# Compute the RMSE achievable by the true data-generating model under
+# covariate-only population prediction. Approximates the L2-optimal floor
+# (ŷ = E_η[y | covariates, time]) via Monte Carlo over the η distribution.
+# This gives a rough upper bound on submission performance.
+
+function dgm_baseline_rmse(df_obs, pop, model, params, label; n_samples=50)
+  df_preds = mapreduce(vcat, 1:n_samples) do r
+    sims = simobs(model, pop, params; rng=StableRNG(30000 + r))
+    mapreduce(vcat, sims) do s
+      df_sim = DataFrame(Subject(s))
+      df_sim[!, [:id, :time, :evid, :y_pk, :y_pd]]
+    end
+  end
+  preds_avg = @chain df_preds begin
+    @rsubset :evid == 0
+    groupby([:id, :time])
+    @combine begin
+      :pred_pk = mean(skipmissing(:y_pk))
+      :pred_pd = mean(skipmissing(:y_pd))
+    end
+  end
+  df_obs_obs = @rsubset(df_obs, :evid == 0)
+  joined = innerjoin(df_obs_obs, preds_avg, on=[:id, :time])
+  pk_mask = .!ismissing.(joined.y_pk) .& .!isnan.(joined.pred_pk)
+  pd_mask = .!ismissing.(joined.y_pd) .& .!isnan.(joined.pred_pd)
+  return (;
+    split=label,
+    rmse_pk=sqrt(mean((joined.y_pk[pk_mask] .- joined.pred_pk[pk_mask]) .^ 2)),
+    rmse_pd=sqrt(mean((joined.y_pd[pd_mask] .- joined.pred_pd[pd_mask]) .^ 2)),
+    n_pk=sum(pk_mask),
+    n_pd=sum(pd_mask),
+  )
 end
-lls = stack(_lls, [:Train, :Test], variable_name="Data", value_name="Loglikelihood")
 
-ll_table = listingtable(lls, :Loglikelihood => nothing, rows=[:Data], cols=[:approximation => "Approximated loglikelihood"])
+baseline_train = dgm_baseline_rmse(df_train, trainpop, truemod, p_true, "Train")
+baseline_test  = dgm_baseline_rmse(df_test,  testpop,  truemod, p_true, "Test")
+baseline_df = DataFrame([baseline_train, baseline_test])
 
-open(asset_dir * "loglikelihoods.html", "w") do f
-  show(f, MIME("text/html"), ll_table)
+baseline_long = DataFrame(
+  Split=repeat(baseline_df.split, inner=2),
+  Endpoint=repeat(["y_pk", "y_pd"], outer=2),
+  RMSE=[
+    baseline_df.rmse_pk[1], baseline_df.rmse_pd[1],
+    baseline_df.rmse_pk[2], baseline_df.rmse_pd[2],
+  ],
+  N=[
+    baseline_df.n_pk[1], baseline_df.n_pd[1],
+    baseline_df.n_pk[2], baseline_df.n_pd[2],
+  ],
+)
+
+baseline_table = listingtable(
+  baseline_long,
+  :RMSE => "RMSE (covariate-only DGM prediction)";
+  rows=[:Split],
+  cols=[:Endpoint => ""],
+)
+
+open(joinpath(asset_dir, "dgm_baseline_rmse.html"), "w") do f
+  show(f, MIME("text/html"), baseline_table)
 end
 
