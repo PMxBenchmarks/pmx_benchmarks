@@ -5,17 +5,12 @@ description: "A synthetic PK-PD dataset from an indirect response model with com
 author:
   - name: Niklas Korsbo
     affiliation: Pumas-AI
-date: 2026-01-30
-categories:
-  - synthetic
-  - pk-pd
-  - predictive-modeling
-  - covariates
+date: 2026-05-21
 ---
 
 ## Abstract
 
-This benchmark provides a synthetic pharmacokinetic-pharmacodynamic (PK-PD) dataset generated from an indirect response (IDR) model with covariates that have a strong nonlinear effect on PKPD. The primary benchmarking task is predictive modeling: using the training data to build a model that achieves the best possible predictions on held-out test subjects. The dataset includes irregular sampling, multiple endpoints (PK concentration and PD response), inter-individual variability, and covariates with intentionally nonlinear effects that can improve predictions if properly leveraged.
+This benchmark provides a synthetic pharmacokinetic-pharmacodynamic (PK-PD) dataset generated from an indirect response (IDR) model with covariates that have a strong nonlinear effect on PKPD. The primary benchmarking task is to predict the full PK concentration and PD response timecourses of held-out test subjects from their baseline covariates and dose history alone — i.e., covariate-only *population* prediction, with no observations from the test subject revealed — scored by RMSE per endpoint. The dataset includes irregular sampling, multiple endpoints (PK concentration and PD response), inter-individual variability, and covariates with intentionally nonlinear effects that can improve predictions if properly leveraged.
 
 ## Background
 
@@ -61,7 +56,7 @@ where $C_p = A_{central} / V_c$ is the plasma concentration.
 
 ### Parameter Values
 
-Population typical values:
+The population parameters were defined, without biological inspiration, to enable reasonable identifiability from the resulting data. 
 
 | Parameter | Symbol | Value | Description |
 |-----------|--------|-------|-------------|
@@ -189,19 +184,18 @@ Both numbers are reported and ranked separately.
 
 **Submission format.** A CSV `predictions.csv` with columns `id, time, pred_pk, pred_pd`, one row per `(id, time)` from the test set. Rows where the corresponding ground-truth `y_*` is missing in the test data are not scored, but the column must still be present (any placeholder value is fine).
 
-**Irreducible RMSE floor.** Even a model that perfectly recovers the true DGM cannot drive RMSE to zero: residual additive observation noise ($\sigma_{PK} = 0.02$ mg/L, $\sigma_{PD} = 0.05$) plus the contribution of the four random effects $\eta$ (which are *independent of covariates*) together set a lower bound that varies with `(covariate, time)`. The table below shows this floor — the RMSE achieved by the true data-generating model itself under covariate-only population prediction (Monte-Carlo–averaged over the $\eta$ distribution). No submission can do meaningfully better than these numbers; submissions should target RMSE values close to this floor.
+**Irreducible RMSE floor.** Even a model that perfectly recovers the true DGM cannot drive RMSE to zero: residual additive observation noise ($\sigma_{PK} = 0.02$ mg/L, $\sigma_{PD} = 0.05$) plus the contribution of the four random effects $\eta$ (which are *independent of covariates*) together set a lower bound that varies with `(covariate, time)`. The table below shows this floor — the RMSE achieved by the true data-generating model itself under covariate-only population prediction (Monte-Carlo–averaged over the $\eta$ distribution). No submission can do meaningfully better than these numbers.
 
 ```{=html}
 {{< include assets/dgm_baseline_rmse.html >}}
 ```
 
-**Why a point-prediction metric instead of marginal log-likelihood?** Marginal log-likelihood is the principled choice for NLME-class models but assumes a tractable likelihood and integration over random effects, machinery that not all submission classes (boosted trees, deep ML, some Bayesian approaches) natively provide. RMSE on covariate-only point predictions is cross-class fair: the L2-optimal predictor is the conditional mean `E[y | covariates, time]`, which any model that consumes covariates can target. See *Scope and Limitations* below for what this metric does *not* measure.
+**Why RMSE and not marginal log-likelihood?** mLL — pharmacometrics' canonical metric — requires a tractable likelihood and integration over random effects, which not all submission classes (boosted trees, deep ML, some Bayesian approaches) natively provide. RMSE is a deliberate step down in pharmacometric realism, in exchange for portability across model classes: any covariate-consuming model can produce a point prediction. The trade is that RMSE measures only the conditional mean, not the full predictive distribution.
 
 **Notes.**
 
 - Models are fit using only the training data (300 subjects); evaluation is on the test data (1000 subjects).
 - The covariate effects are nonlinear and interacting by construction — flexible covariate models should outperform linear-on-covariate baselines.
-- Optional secondary scoring via CRPS (or any strictly proper scoring rule on predictive samples) is welcome for probabilistic submitters; a standard submission format for samples is a follow-up.
 
 ## Scope and Limitations
 
@@ -235,13 +229,6 @@ julia --project=.. generate_data.jl
 ```
 
 **Requirements:** Pumas v2.8+
-
-## References
-
-The structural PK/PD model and population parameter values used to generate this
-dataset were adapted from the example IDR model in the
-[DeepPumas](https://github.com/PumasAI/DeepPumas.jl) project (see
-`PaperMaterial_DeepNLME/experiment/idr.jl`).
 
 ## License
 
