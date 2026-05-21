@@ -12,10 +12,6 @@ Output:
     ../data/train.csv  (300 subjects)
     ../data/test.csv   (1000 subjects)
 
-Reference:
-    Adapted from PaperMaterial_DeepNLME/experiment/idr.jl in the DeepPumas
-    project (https://github.com/PumasAI/DeepPumas.jl).
-
 Software:
     Developed for Pumas v2.8.0 but should be compatible with later v2.x versions.
 =#
