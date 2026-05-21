@@ -117,7 +117,7 @@ $$
 \Omega = \text{diag}(0.2, 0.1, 0.1, 0.2)
 $$
 
-Applied to $K_a$, $K_{out}$, $S_{max}$, and $n$ respectively.
+The diagonal entries of $\Omega$ are *variances* of the random effects $\eta_i$ on the log-parameter scale; the corresponding marginal standard deviations are $\sqrt{0.2}\approx 0.45$, $\sqrt{0.1}\approx 0.32$, $\sqrt{0.1}\approx 0.32$, and $\sqrt{0.2}\approx 0.45$ for $K_a$, $K_{out}$, $S_{max}$, and $n$ respectively.
 
 **Covariate Distributions:**
 
