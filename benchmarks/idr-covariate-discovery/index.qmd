@@ -141,6 +141,11 @@ The diagonal entries of $\Omega$ are *variances* of the random effects $\eta_i$ 
 
 ### Variables
 
+The columns of `data/train.csv` and `data/test.csv` are documented in
+[`data/data-dictionary.yml`](data/data-dictionary.yml) using a
+[yspec](https://github.com/metrumresearchgroup/yspec)-style YAML schema.
+
+At a glance:
 
 | Column | Description |
 |--------|-------------|
