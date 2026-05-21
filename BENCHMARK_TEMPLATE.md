@@ -11,7 +11,7 @@ benchmarks/<your-dataset-name>/
 ├── data/
 │   ├── train.csv               # Training dataset (required)
 │   ├── test.csv                # Test dataset (required)
-│   └── data-dictionary.csv     # Column descriptions (required)
+│   └── data-dictionary.yml     # Column descriptions, yspec-style YAML (required)
 └── README.md                   # Quick reference (optional, auto-generated)
 ```
 
@@ -154,14 +154,46 @@ license: CC-BY-4.0
 doi: TBD  # Will be assigned upon acceptance
 ```
 
-## data-dictionary.csv Template
+## data-dictionary.yml Template
 
-```csv
-column_name,description,units,type,coding
-ID,Subject identifier,-,integer,1-N
-TIME,Time since first dose,hours,numeric,>=0
-...
+[yspec](https://github.com/metrumresearchgroup/yspec)-style YAML. Top-level
+keys are column names (one per data column); reserved keys ending in `__`
+(e.g. `SETUP__`) are not treated as columns.
+
+```yaml
+SETUP__:
+  description: Brief description of this data dictionary
+  glue:
+    - "{{ short }}"
+
+ID:
+  short: Subject identifier
+  type: integer
+  values: 1 to N
+
+TIME:
+  short: Time since first dose
+  type: numeric
+  unit: hours
+  range: [0, ]
+
+DV:
+  short: Dependent variable (plasma concentration)
+  type: numeric
+  unit: mg/L
+  comment: Observation rows only; dose-event rows have DV missing.
+
+DROPOUT:
+  short: Dropout indicator
+  type: integer
+  values:
+    0: completed
+    1: dropped out
 ```
+
+Legacy `data-dictionary.csv` (with columns `column_name, description, units,
+type, coding`) is still accepted by the validator for backwards compatibility
+but new submissions should use YAML.
 
 ## Tips
 
