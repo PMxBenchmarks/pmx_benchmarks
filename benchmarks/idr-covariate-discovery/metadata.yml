@@ -1,0 +1,39 @@
+name: idr-covariate-discovery
+title: IDR PKPD with Nonlinear Numerical Baseline Covariates
+version: 1.0.0
+date: 2026-01-30
+authors:
+  - name: Niklas Korsbo
+    affiliation: Pumas-AI
+    email: niklas@pumas.ai
+description: A synthetic PK-PD dataset from an indirect response model with complex nonlinear covariate effects. The task is covariate-only population prediction on held-out test subjects, scored by RMSE per endpoint.
+keywords:
+  - pharmacodynamics
+  - indirect-response
+  - predictive-modeling
+  - nonlinear-covariates
+  - synthetic-data
+  - pk-pd
+data_type: synthetic
+therapeutic_area: general
+n_subjects: 1300
+n_subjects_train: 300
+n_subjects_test: 1000
+n_observations: 20768
+n_observations_train: 4796
+n_observations_test: 15972
+tasks:
+  - name: pk-prediction
+    type: regression
+    description: Covariate-only population prediction of PK concentration y_pk on held-out test subjects (no test-subject observations revealed)
+    target: y_pk
+    output_format: {type: individual_predictions, columns: [id, time, pred_pk]}
+    metric: rmse
+  - name: pd-prediction
+    type: regression
+    description: Covariate-only population prediction of PD response y_pd on held-out test subjects (no test-subject observations revealed)
+    target: y_pd
+    output_format: {type: individual_predictions, columns: [id, time, pred_pd]}
+    metric: rmse
+license: MIT
+doi: TBD
