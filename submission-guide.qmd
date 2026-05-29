@@ -54,7 +54,7 @@ benchmarks/<dataset-name>/
 ├── data/
 │   ├── train.csv          # Training dataset
 │   ├── test.csv           # Test dataset
-│   └── data-dictionary.csv # Column descriptions
+│   └── data-dictionary.yml # Column descriptions (yspec-style YAML)
 ├── metadata.yml           # Machine-readable metadata
 └── README.md              # Quick reference (generated from index.qmd)
 ```
@@ -80,16 +80,48 @@ Your main documentation file must include the following sections:
 - `test.csv`: Test dataset
 - Both files must use the same column structure
 
-#### 3. `data-dictionary.csv`
+#### 3. `data-dictionary.yml`
 
-A CSV file describing each column with the following structure:
+A [yspec](https://github.com/metrumresearchgroup/yspec)-style YAML
+schema documenting each column. Top-level keys are column names (one
+key per column in `train.csv`/`test.csv`); reserved keys ending in `__`
+(e.g. `SETUP__`) are not treated as columns.
 
-| column_name | description | units | type | coding |
-|-------------|-------------|-------|------|--------|
-| ID | Subject identifier | - | integer | - |
-| TIME | Time since first dose | hours | numeric | - |
-| DV | Dependent variable (concentration) | mg/L | numeric | - |
-| ... | ... | ... | ... | ... |
+```yaml
+SETUP__:
+  description: Brief description of this data dictionary
+  glue:
+    - "{{ short }}"
+
+ID:
+  short: Subject identifier
+  type: integer
+  values: 1 to N
+
+TIME:
+  short: Time since first dose
+  type: numeric
+  unit: hours
+  range: [0, ]
+
+DV:
+  short: Dependent variable (plasma concentration)
+  type: numeric
+  unit: mg/L
+  comment: Observation rows only; dose-event rows have DV missing.
+
+DROPOUT:
+  short: Dropout indicator
+  type: integer
+  values:
+    0: completed
+    1: dropped out
+```
+
+Legacy `data-dictionary.csv` files (with columns
+`column_name, description, units, type, coding`) are still accepted by
+the validator for backwards compatibility with earlier submissions, but
+new submissions should use the YAML form.
 
 #### 4. `metadata.yml`
 
@@ -202,7 +234,7 @@ benchmarks/<your-dataset-name>/
 └── data/
     ├── train.csv
     ├── test.csv
-    └── data-dictionary.csv
+    └── data-dictionary.yml
 ```
 
 ### 6. Validate Locally

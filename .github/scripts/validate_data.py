@@ -6,6 +6,7 @@ Validate benchmark data files.
 import sys
 from pathlib import Path
 import pandas as pd
+import yaml
 
 def validate_csv_file(file_path):
     """Validate a CSV file can be read."""
@@ -28,33 +29,50 @@ def validate_csv_file(file_path):
         return errors, warnings, None
 
 def validate_data_dictionary(dict_path, data_columns):
-    """Validate data dictionary covers all columns."""
+    """Validate data dictionary covers all columns.
+
+    Accepts either a yspec-style YAML (preferred) or a legacy CSV dictionary.
+    """
     errors = []
     warnings = []
-    
+
+    suffix = dict_path.suffix.lower()
     try:
-        dict_df = pd.read_csv(dict_path)
-        
-        required_columns = ['column_name', 'description', 'type']
-        for col in required_columns:
-            if col not in dict_df.columns:
-                errors.append(f"data-dictionary.csv missing required column: {col}")
-        
-        if 'column_name' in dict_df.columns:
+        if suffix in ('.yml', '.yaml'):
+            with open(dict_path) as f:
+                spec = yaml.safe_load(f) or {}
+            # yspec convention: top-level keys are column names, with reserved
+            # keys (e.g. SETUP__) wrapped in trailing __ or single underscores.
+            documented_cols = {
+                k for k in spec.keys()
+                if isinstance(k, str) and not k.endswith('__') and not k.startswith('_')
+            }
+            label = dict_path.name
+        elif suffix == '.csv':
+            dict_df = pd.read_csv(dict_path)
+            required_columns = ['column_name', 'description', 'type']
+            for col in required_columns:
+                if col not in dict_df.columns:
+                    errors.append(f"{dict_path.name} missing required column: {col}")
+            if 'column_name' not in dict_df.columns:
+                return errors, warnings
             documented_cols = set(dict_df['column_name'].tolist())
-            data_cols = set(data_columns)
-            
-            missing = data_cols - documented_cols
-            if missing:
-                errors.append(f"data-dictionary.csv missing columns: {missing}")
-            
-            extra = documented_cols - data_cols
-            if extra:
-                warnings.append(f"data-dictionary.csv has extra columns: {extra}")
-        
+            label = dict_path.name
+        else:
+            errors.append(f"Unsupported data dictionary format: {dict_path.name}")
+            return errors, warnings
+
+        data_cols = set(data_columns)
+        missing = data_cols - documented_cols
+        if missing:
+            errors.append(f"{label} missing columns: {sorted(missing)}")
+        extra = documented_cols - data_cols
+        if extra:
+            warnings.append(f"{label} has extra columns: {sorted(extra)}")
+
     except Exception as e:
         errors.append(f"Failed to validate data dictionary: {str(e)}")
-    
+
     return errors, warnings
 
 def validate_train_test_consistency(train_df, test_df):
@@ -126,9 +144,11 @@ def main():
             all_errors.extend([f"{benchmark_dir.name}: {e}" for e in errors])
             all_warnings.extend([f"{benchmark_dir.name}: {w}" for w in warnings])
             
-            # Validate data dictionary
-            dict_path = data_dir / 'data-dictionary.csv'
-            if dict_path.exists():
+            # Validate data dictionary (prefer YAML, fall back to CSV).
+            yml_path = data_dir / 'data-dictionary.yml'
+            csv_path = data_dir / 'data-dictionary.csv'
+            dict_path = yml_path if yml_path.exists() else (csv_path if csv_path.exists() else None)
+            if dict_path is not None:
                 errors, warnings = validate_data_dictionary(dict_path, train_df.columns)
                 all_errors.extend([f"{benchmark_dir.name}: {e}" for e in errors])
                 all_warnings.extend([f"{benchmark_dir.name}: {w}" for w in warnings])

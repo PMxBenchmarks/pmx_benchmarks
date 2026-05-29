@@ -12,20 +12,28 @@ def validate_benchmark_structure(benchmark_path):
     """Check that required files exist."""
     errors = []
     warnings = []
-    
+
     required_files = [
         'index.qmd',
         'metadata.yml',
         'data/train.csv',
         'data/test.csv',
-        'data/data-dictionary.csv'
     ]
-    
+
     for file in required_files:
         file_path = benchmark_path / file
         if not file_path.exists():
             errors.append(f"Missing required file: {file}")
-    
+
+    # Data dictionary: prefer yspec-style YAML, but accept CSV for backwards compatibility.
+    yml_dict = benchmark_path / 'data/data-dictionary.yml'
+    csv_dict = benchmark_path / 'data/data-dictionary.csv'
+    if not yml_dict.exists() and not csv_dict.exists():
+        errors.append(
+            "Missing required file: data/data-dictionary.yml "
+            "(or data/data-dictionary.csv for legacy submissions)"
+        )
+
     return errors, warnings
 
 def validate_metadata(metadata_path):
