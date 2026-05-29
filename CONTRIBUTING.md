@@ -6,14 +6,14 @@ Thank you for your interest in contributing to the Pharmacometrics Benchmarks In
 
 ### 1. Submit a Benchmark Dataset
 
-The primary way to contribute is by submitting a high-quality benchmark dataset. See our [Submission Guide](https://korsbo.github.io/pmx_benchmarks/submission-guide.html) for detailed instructions.
+The primary way to contribute is by submitting a benchmark dataset. There are two tracks — read the [Scope & Eligibility](https://pmxbenchmarks.github.io/pmx_benchmarks/scope.html) page first.
 
 **Quick steps:**
 
 1. Fork this repository
 2. Create your benchmark in `benchmarks/<your-dataset-name>/`
 3. Follow the [BENCHMARK_TEMPLATE.md](BENCHMARK_TEMPLATE.md)
-4. Submit a Pull Request using the PR template
+4. Submit a Pull Request using the PR template — include a motivation section
 
 ### 2. Improve Documentation
 
@@ -167,9 +167,9 @@ Contributors will be acknowledged in:
 
 ## Questions?
 
-- Check our [FAQ](https://korsbo.github.io/pmx_benchmarks/submission-guide.html)
+- Check our [FAQ](https://pmxbenchmarks.github.io/pmx_benchmarks/submission-guide.html)
 - [Open a discussion](https://github.com/korsbo/pmx_benchmarks/discussions)
-- [Contact us](https://korsbo.github.io/pmx_benchmarks/contact.html)
+- [Contact us](https://pmxbenchmarks.github.io/pmx_benchmarks/contact.html)
 
 ## License
 

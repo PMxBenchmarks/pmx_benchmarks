@@ -1,0 +1,73 @@
+SETUP__:
+  description: Data dictionary for the example PK model selection benchmark
+  glue:
+    - "{{ short }}"
+
+ID:
+  short: Subject identifier
+  type: integer
+  values: 1 to 200
+
+TIME:
+  short: Time since first dose
+  type: numeric
+  unit: hours
+  range: [0, ]
+
+AMT:
+  short: Dose amount
+  type: numeric
+  unit: mg
+  values: 0 or 100
+  comment: Non-zero on dose event rows (EVID=1); 0 on observation rows.
+
+DV:
+  short: Dependent variable (plasma concentration)
+  type: numeric
+  unit: mg/L
+  comment: Positive on observation rows (EVID=0); missing on dose event rows.
+
+EVID:
+  short: Event ID
+  type: integer
+  values:
+    0: observation
+    1: dose
+
+CMT:
+  short: Compartment
+  type: integer
+  values:
+    1: gut
+    2: central
+
+MDV:
+  short: Missing dependent variable flag
+  type: integer
+  values:
+    0: not missing
+    1: missing
+
+WT:
+  short: Body weight
+  type: numeric
+  unit: kg
+
+AGE:
+  short: Age
+  type: numeric
+  unit: years
+
+SEX:
+  short: Sex
+  type: integer
+  values:
+    0: Female
+    1: Male
+
+DROPOUT:
+  short: Dropout indicator
+  type: integer
+  values:
+    0: completed
+    1: dropped out
