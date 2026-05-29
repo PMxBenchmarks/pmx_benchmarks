@@ -33,6 +33,22 @@ date: YYYY-MM-DD
 
 Brief overview of the benchmark (2-3 sentences).
 
+## Motivation
+
+*Required for all submissions. See [Scope & Eligibility](../../scope.qmd) for details.*
+
+**Why should this dataset be added to this repository?**
+
+...
+
+**Which existing datasets (in this repo or elsewhere) are most similar?**
+
+...
+
+**How is this submission concretely different enough to warrant inclusion?**
+
+...
+
 ## Background
 
 Context and motivation for this benchmark.
@@ -59,7 +75,7 @@ Sample size, dosing regimen, sampling schedule, dropout.
 
 ### Variables
 
-Key variables with brief descriptions. Reference data-dictionary.csv.
+Key variables with brief descriptions. Reference data-dictionary.yml.
 
 ### Sample Size
 
@@ -108,6 +124,7 @@ name: your-dataset-name
 title: Your Full Benchmark Title
 version: 1.0.0
 date: 2025-10-16
+goal: generic          # generic | grand_challenge
 authors:
   - name: Your Name
     affiliation: Your Institution
@@ -191,9 +208,7 @@ DROPOUT:
     1: dropped out
 ```
 
-Legacy `data-dictionary.csv` (with columns `column_name, description, units,
-type, coding`) is still accepted by the validator for backwards compatibility
-but new submissions should use YAML.
+New submissions must use yspec-style YAML for the data dictionary.
 
 ## Tips
 

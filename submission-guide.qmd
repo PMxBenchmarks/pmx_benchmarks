@@ -4,45 +4,69 @@ title: "Submission Guide"
 
 ## Overview
 
-We welcome high-quality benchmark dataset submissions from the pharmacometrics community. Each submission undergoes rigorous peer review and, upon acceptance, becomes a citable publication with a DOI.
+We welcome benchmark dataset submissions from the pharmacometrics community. There are two submission tracks — read the [Scope & Eligibility](scope.qmd) page first to determine which one fits your dataset.
+
+| | Goal 1 — Generic Benchmarks | Goal 2 — Grand Challenges |
+|-|------------------------------|---------------------------|
+| **Intended for** | Teaching cases, agentic datasets, unit-test style submissions | Highly realistic drug-development scenarios, competition-ready |
+| **Novelty bar** | Moderate — must be justified | High — must address a significant field problem |
+| **Review** | Structural + light novelty review | Editorial triage, then full peer review |
+| **Outcome** | DOI, website listing | DOI, website listing, QM fast-track eligibility, featured status |
+
+All submissions must include a **motivation section** — see [§ Motivation](#motivation) below.
+
+---
 
 ## Benchmark Requirements
 
-All benchmark datasets must meet the following criteria:
+### Requirements for All Submissions
 
-### 1. Realism
+#### 1. Pharmacometric in nature
 
-- **Irregular sampling**: Reflect realistic clinical trial sampling schedules
-- **Confounding dropouts**: Include realistic patient dropout patterns
-- **Realistic relationships**: Capture true dose-exposure-response relationships
+The dataset must be appropriate for pharmacometric modeling — pharmacokinetics, pharmacodynamics, exposure-response, or closely related quantitative clinical pharmacology tasks. Novel data types (imaging, text, omics) are explicitly welcomed.
 
-### 2. Longitudinal Structure
-
-- Data must include repeated measurements over time
-- Appropriate for pharmacometric modeling approaches
-
-### 3. Comprehensive Documentation
+#### 2. Well-documented
 
 Your submission must include:
 
-- **Generative process description**: For synthetic data, document how the data was generated
-- **Realistic scenario description**: Explain what real-world situation the dataset represents
-- **Clear data dictionary**: Describe all variables and their units
+- A generative process description (for synthetic data) or a realistic scenario description
+- A [yspec-style YAML data dictionary](https://github.com/metrumresearchgroup/yspec) for all variables
+- A train/test split with documented rationale
 
-### 4. Associated Tasks
+#### 3. Associated tasks
 
-Define specific tasks that reflect real-world decision-making in drug development:
+Define at least one task with a specified evaluation metric and output format. See [§ Task Schema](#task-schema) below. For Goal 1 submissions, simpler tasks (e.g. RMSE on a single endpoint) are appropriate. For Goal 2, tasks should be strongly motivated by real drug-development decisions.
 
-- Model selection challenges
-- Dose optimization
-- Clinical trial simulation validation
-- Exposure-response characterization
+#### 4. Train/test split
 
-### 5. Train/Test Split
+Provide a pre-specified train/test split. Evaluation metrics are computed on the test set. Document the rationale for the split strategy.
 
-- Provide a pre-specified train/test split
-- Evaluation metrics should be computed on the test set
-- Document the rationale for the split strategy
+#### 5. Motivation {#motivation}
+
+Every submission must include a **"letter to the editor" style motivation** — a dedicated section in `index.qmd` with:
+
+- Why this dataset should be added to this repository
+- Which existing datasets (here or elsewhere) are most similar
+- How this submission is concretely different enough to warrant inclusion
+
+For Goal 1, one paragraph is sufficient. For Goal 2, a fuller justification is expected. Reviewers use this section to assess novelty.
+
+---
+
+### Additional Requirements for Goal 2
+
+#### Realism
+
+The dataset must reflect realistic clinical trial conditions:
+
+- **Irregular sampling**: Realistic clinical sampling schedules
+- **Confounding dropouts**: Realistic patient dropout patterns
+- **Realistic relationships**: True dose-exposure-response relationships
+- **Longitudinal structure**: Repeated measurements over time
+
+Non-longitudinal modalities (e.g. DXA, PET imaging) may be considered case-by-case with explicit justification.
+
+---
 
 ## Submission Structure
 
@@ -56,36 +80,33 @@ benchmarks/<dataset-name>/
 │   ├── test.csv           # Test dataset
 │   └── data-dictionary.yml # Column descriptions (yspec-style YAML)
 ├── metadata.yml           # Machine-readable metadata
-└── README.md              # Quick reference (generated from index.qmd)
+└── README.md              # Quick reference (optional)
 ```
 
 ### Required Files
 
 #### 1. `index.qmd`
 
-Your main documentation file must include the following sections:
+Your main documentation file must include:
 
 - **Title and Authors**
-- **Abstract**: Brief overview of the benchmark
-- **Background**: Context and motivation
+- **Abstract**: Brief overview
+- **Motivation**: Why this dataset belongs here (see [§ Motivation](#motivation))
+- **Background**: Context
 - **Data Generation** (for synthetic data): Detailed methodology
 - **Dataset Description**: Variables, sample size, study design
-- **Tasks**: Specific modeling challenges with evaluation criteria
+- **Tasks**: Modeling challenges with evaluation criteria
 - **Train/Test Split**: Description and rationale
 - **References**: Relevant citations
 
 #### 2. Data Files
 
-- `train.csv`: Training dataset
-- `test.csv`: Test dataset
-- Both files must use the same column structure
+- `train.csv` and `test.csv` must use identical column structure
+- Stored via Git LFS (see [§ Large Data Files](#large-data-files))
 
 #### 3. `data-dictionary.yml`
 
-A [yspec](https://github.com/metrumresearchgroup/yspec)-style YAML
-schema documenting each column. Top-level keys are column names (one
-key per column in `train.csv`/`test.csv`); reserved keys ending in `__`
-(e.g. `SETUP__`) are not treated as columns.
+A [yspec](https://github.com/metrumresearchgroup/yspec)-style YAML schema. Top-level keys are column names; reserved keys ending in `__` are not treated as columns.
 
 ```yaml
 SETUP__:
@@ -118,32 +139,25 @@ DROPOUT:
     1: dropped out
 ```
 
-Legacy `data-dictionary.csv` files (with columns
-`column_name, description, units, type, coding`) are still accepted by
-the validator for backwards compatibility with earlier submissions, but
-new submissions should use the YAML form.
+New submissions must use yspec-style YAML for the data dictionary.
 
 #### 4. `metadata.yml`
-
-Machine-readable metadata in YAML format:
 
 ```yaml
 name: dataset-name
 title: Full Dataset Title
 version: 1.0.0
 date: 2025-10-16
+goal: generic          # generic | grand_challenge
 authors:
   - name: Jane Doe
     affiliation: University Example
     email: jane.doe@example.com
-  - name: John Smith
-    affiliation: Pharma Corp
 description: Brief description of the benchmark
 keywords:
   - pharmacokinetics
   - dose-response
-  - longitudinal
-data_type: synthetic
+data_type: synthetic   # synthetic | semi-synthetic | real
 therapeutic_area: oncology
 n_subjects: 250
 n_observations: 2500
@@ -155,102 +169,55 @@ tasks:
     output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
     metric: rmse
 license: CC-BY-4.0
+doi: TBD
 ```
+
+---
 
 ## Step-by-Step Guide
 
-This guide walks through a complete submission from scratch. If you are comfortable
-with GitHub and git, skip to [Submission Process](#submission-process) below.
-
 ### Prerequisites
 
-Install the following before starting:
-
-1. **A GitHub account** — [Sign up at github.com](https://github.com/join)
+1. **A GitHub account** — [github.com/join](https://github.com/join)
 2. **Git** — [git-scm.com/downloads](https://git-scm.com/downloads)
-   - macOS: `brew install git`
-   - Windows: use the Git for Windows installer
-   - Linux: `sudo apt install git` or `sudo yum install git`
 3. **Git LFS** — [git-lfs.github.com](https://git-lfs.github.com/)
-   - macOS: `brew install git-lfs`
-   - Windows: included in Git for Windows
-   - Linux: `sudo apt install git-lfs`
 4. **Quarto** — [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
 
 ### 1. Fork the Repository
 
-1. Go to [github.com/PMxBenchmarks/pmx_benchmarks](https://github.com/PMxBenchmarks/pmx_benchmarks)
-2. Click **Fork** (top-right corner)
-3. Select your GitHub account as the destination
-
-You now have your own copy at `github.com/<your-username>/pmx_benchmarks`.
+Go to [github.com/PMxBenchmarks/pmx_benchmarks](https://github.com/PMxBenchmarks/pmx_benchmarks) and click **Fork**.
 
 ### 2. Clone Your Fork
 
 ```bash
 git clone https://github.com/<your-username>/pmx_benchmarks.git
 cd pmx_benchmarks
-```
-
-### 3. Set Up Git LFS
-
-Run once after cloning:
-
-```bash
 git lfs install
 ```
 
-Verify tracking is active:
-
-```bash
-git lfs track
-```
-
-You should see `*.csv`, `*.parquet`, `*.RData`, and other data formats listed.
-
-### 4. Create a Branch
+### 3. Create a Branch
 
 ```bash
 git checkout -b benchmark/<your-dataset-name>
 ```
 
-Example: `git checkout -b benchmark/idr-pkpd-covariate`
-
-### 5. Add Your Benchmark
-
-Create the directory structure:
+### 4. Add Your Benchmark
 
 ```bash
 mkdir -p benchmarks/<your-dataset-name>/data
 ```
 
 Use `BENCHMARK_TEMPLATE.md` and `benchmarks/example-pk-model-selection/` as references.
-Required files:
 
-```
-benchmarks/<your-dataset-name>/
-├── index.qmd
-├── metadata.yml
-└── data/
-    ├── train.csv
-    ├── test.csv
-    └── data-dictionary.yml
-```
-
-### 6. Validate Locally
+### 5. Validate Locally
 
 ```bash
-# Check Quarto renders without errors
 quarto render benchmarks/<your-dataset-name>/index.qmd
-
-# Run validation scripts
 python .github/scripts/validate_benchmark.py
 python .github/scripts/validate_data.py
 ```
 
-Fix any errors before continuing.
-
-### 7. Commit and Push
+### 6. Commit and Push
 
 ```bash
 git add benchmarks/<your-dataset-name>/
@@ -258,49 +225,37 @@ git commit -m "Add <your-dataset-name> benchmark"
 git push origin benchmark/<your-dataset-name>
 ```
 
-### 8. Open a Pull Request
+### 7. Open a Pull Request
 
-1. Go to your fork: `github.com/<your-username>/pmx_benchmarks`
-2. Click **Compare & pull request** (appears after pushing)
-3. Set base repository to `PMxBenchmarks/pmx_benchmarks`, base branch `main`
-4. Fill in the PR template completely
-5. Click **Create pull request**
+Go to your fork on GitHub and click **Compare & pull request**. Set base repository to `PMxBenchmarks/pmx_benchmarks`, base branch `main`. Fill in the PR template completely — in particular the motivation section.
 
-### 9. Respond to Review
+### 8. Respond to Review
 
-Reviewers will comment on your PR. Push updated commits to the **same branch** —
-do not open a new PR. The existing PR updates automatically.
+Push updates to the **same branch**. Do not open a new PR.
 
 ---
 
 ## Large Data Files
 
-All benchmark data files are stored using git-lfs. Run `git lfs install` once after
-cloning and git will automatically handle tracked file types (`*.csv`, `*.parquet`,
-`*.RData`, `*.rds`, `*.sas7bdat`, `*.xpt`).
+All benchmark data files are stored using Git LFS. Run `git lfs install` once after cloning. Git automatically handles tracked types: `*.csv`, `*.parquet`, `*.RData`, `*.rds`, `*.sas7bdat`, `*.xpt`.
 
 ---
 
 ## Task Schema
 
-Each task in `metadata.yml` should declare a `type`, `output_format`, and `metric`. The validator warns when `type` is absent and enforces `output_format` and `metric` only when `type` is provided.
-Three task types are supported:
+Each task in `metadata.yml` must declare a `type`, `output_format`, and `metric`.
 
 ### Regression
-
-Predict a continuous outcome for each row in the test set.
 
 ```yaml
 - name: prediction-accuracy
   type: regression
-  target: DV                    # column in test.csv with ground truth values
+  target: DV
   output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
-  metric: rmse                  # rmse | mae | nrmse
+  metric: rmse          # rmse | mae | nrmse
 ```
 
 ### Classification
-
-Predict a binary or multi-class outcome.
 
 ```yaml
 # Soft predictions
@@ -318,9 +273,6 @@ Predict a binary or multi-class outcome.
 
 ### Counterfactual
 
-Report aggregate statistics under a hypothetical intervention. Output must be
-aggregates — not individual-level predictions.
-
 ```yaml
 - name: cmax-exceedance-2x-dose
   type: counterfactual
@@ -330,9 +282,7 @@ aggregates — not individual-level predictions.
   metric: quantile_coverage
 ```
 
-The `truth_file` must be deposited in `tasks/` and contain pre-computed ground truth
-from your generative model. Its `estimates` keys must exactly match the names declared
-in `output_format.stats`:
+The `truth_file` contains pre-computed ground truth from your generative model:
 
 ```yaml
 # tasks/cmax_truth.yml
@@ -347,58 +297,10 @@ estimates:
   q90: 118.4
 ```
 
-The other supported counterfactual output type is `probability` (with `threshold` and
-`direction: above|below`; truth file needs a single `p` key).
-
-One metric per task — create separate tasks if you want multiple metrics evaluated.
+One metric per task — create separate tasks for multiple metrics.
 
 ---
 
-## Submission Process
-
-### Step 1: Prepare Your Benchmark
-
-1. Create your benchmark following the structure above
-2. Test that your documentation builds correctly with Quarto
-3. Validate that your data files are properly formatted
-
-### Step 2: Submit a Pull Request
-
-1. Fork this repository
-2. Create a new branch: `git checkout -b benchmark/<your-dataset-name>`
-3. Add your benchmark to `benchmarks/<your-dataset-name>/`
-4. Commit your changes with a clear message
-5. Push to your fork and submit a Pull Request
-
-Use our [Pull Request template](.github/PULL_REQUEST_TEMPLATE.md) which will guide you through the submission checklist.
-
-### Step 3: Peer Review
-
-Your submission will undergo peer review:
-
-- Technical validation (automated checks)
-- Scientific review (expert evaluation)
-- Documentation quality assessment
-
-Reviewers will provide feedback via PR comments. Please address all comments before final acceptance.
-
-### Step 4: Acceptance and Publication
-
-Upon acceptance:
-
-- Your benchmark will be merged into the main repository
-- A DOI will be assigned
-- Your benchmark will appear on the website
-- You can cite it in publications
-
-## Tips for a Successful Submission
-
-- **Start early**: The review process may take several iterations
-- **Be thorough**: Complete documentation speeds up review
-- **Test your data**: Ensure files load correctly and contain expected information
-- **Engage with reviewers**: Respond promptly to feedback
-- **Follow examples**: Look at existing benchmarks for guidance
-
 ## Questions?
 
-If you have questions about the submission process, please [contact us](contact.qmd) or open a discussion on GitHub.
+[Contact us](contact.qmd) or open a discussion on GitHub.

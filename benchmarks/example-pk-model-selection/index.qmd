@@ -96,7 +96,7 @@ Where $\epsilon_{prop} \sim N(0, 0.01)$ and $\epsilon_{add} \sim N(0, 0.25)$.
 
 ### Variables
 
-See `data/data-dictionary.csv` for complete descriptions. Key variables:
+See `data/data-dictionary.yml` for complete descriptions. Key variables:
 
 - **ID:** Subject identifier (1-200)
 - **TIME:** Time since first dose (hours)
@@ -170,7 +170,9 @@ train = pd.read_csv('data/train.csv')
 test = pd.read_csv('data/test.csv')
 
 # Load data dictionary
-data_dict = pd.read_csv('data/data-dictionary.csv')
+import yaml
+with open('data/data-dictionary.yml') as f:
+    data_dict = yaml.safe_load(f)
 print(data_dict)
 ```
 

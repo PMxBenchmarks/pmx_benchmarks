@@ -1,0 +1,109 @@
+---
+title: "Scope & Eligibility"
+---
+
+---
+
+## Purpose
+
+The Pharmacometrics Benschmarks repository maintains a curated, public collection of pharmacometric benchmark datasets to facilitate reproducible performance comparisons across novel modeling methodologies. It is **planned to be** hosted under ISoP and operated by the Benchmarking Datasets Working Group of the AI/ML SIG.
+
+Content is openly accessible to both ISoP members and the broader scientific community.
+
+The goals are to maintain a curated, public repository of generic benchmark datasets to facilitate performance comparisons across pharmacometric approaches and to curate highly realistic datasets for specific pharmacometric problems ("grand challenges") that embody challenges encountered in real-world drug development, to raise awareness for the field's big problems.
+
+---
+
+## Two Goals
+
+All submissions fall under one of the two goals. The goal determines the review track, effort bar, and publication pathway.
+
+### Goal 1 — "Generic" Benchmarks
+
+> *Maintain a curated, public repository of generic benchmark datasets to facilitate performance comparisons across novel pharmacometric methodologies.*
+
+**Intended for:**
+
+- Teaching cases and educational datasets
+- Agentic/automated workflows ("agentic datasets")
+- Unit-test style submissions isolating a single modeling phenomenon
+- Datasets with moderate complexity and limited novelty requirements
+
+**Review:** Minimal structural review. Novelty bar is not high, but must be justified (see [Novelty & Motivation](#novelty-and-motivation)).
+
+**Outcome:** DOI assigned upon acceptance; listed on the website.
+
+
+---
+
+### Goal 2 — Grand Challenges
+
+> *Curate highly realistic datasets for specific pharmacometric problems ("grand challenges") that embody challenges encountered in real-world drug development, to raise awareness for the field's big problems.*
+
+**Intended for:**
+
+- Datasets targeting complex, realistic drug-development scenarios — by submitters who have "lived through the pain of real data"
+- Multi-task benchmarks with clinical relevance
+- Submissions designed for community competitions and rankings
+- Datasets where the problem itself is the contribution (comparable to CASP / protein folding challenges in biology)
+
+**Review:** Editorial triage, then full quality based peer review in addition to structural review. **Intention to be in the future ** eligible for fast-track consideration at Quantitative Medicine.
+
+**Outcome:** DOI assigned; eligible for featured status, benchmark suite inclusion, and QM publication.
+
+---
+
+## Eligibility Criteria
+
+A submission is in scope if it meets all of the following, regardless of goal:
+
+### 1. Pharmacometric in nature
+
+The dataset must be appropriate for pharmacometric modeling — pharmacokinetics, pharmacodynamics, exposure-response, or closely related quantitative clinical pharmacology tasks. Coverage across PK, PD, QSP, and novel data types (imaging, text, omics, all therapeutic modalities) is explicitly welcomed.
+
+### 2. Longitudinal structure
+
+Data will typically include repeated measurements over time. Non-longitudinal modalities (e.g. DXA, PET imaging) may be considered case-by-case with explicit justification of relevance to the field and need to be included in the suite.
+
+### 3. Well-documented
+
+The submission must include:
+
+- A generative process description, realistic scenario description
+- A [yspec-style YAML data dictionary](https://github.com/metrumresearchgroup/yspec) for all variables
+- A train/test split with documented rationale
+
+### 4. Associated tasks
+
+Each dataset should come with pre-defined tasks by the submitter. Ideally, these tasks will reflect real drug-development decisions (model selection, dose optimization, exposure-response characterization, etc.). Similar to the overall requirements on dataset novelty, this can be simpler for generic submissions (e.g. RMSE) and should be strongly motivated by real situations for the "grand challenge" datasets. Each task must have a defined metric and output format. See the [Submission Guide](submission-guide.qmd) for the task schema.
+
+### 5. Novel and motivated {#novelty-and-motivation}
+
+Submissions must include a **"letter to the editor" style motivation** — a dedicated section in the submission that:
+
+- States why this dataset should be added to the repository
+- Lists the most similar existing datasets (in this repository or elsewhere)
+- Explains concretely how this submission is different enough to warrant inclusion
+
+For Goal 1 submissions, one paragraph is sufficient. For Goal 2 submissions, a fuller justification is expected.
+
+Reviewers will use this section to assess novelty. Novelty is inherently subjective; the letter-style format makes the reasoning transparent and auditable.
+
+---
+
+
+## Incentives for Contributors
+
+We want contributing a benchmark to be rewarding in proportion to the effort put in.
+
+**Every accepted submission receives:**
+
+- A DOI, making it citable in the scientific literature. In addition to being a reward for contributors, this also makes benchmarks involving the dataset well documented and comparable across publications.
+- Permanent hosting and a stable URL
+
+**Goal 2 submissions may additionally receive:**
+
+- **Fast-track consideration at QM** (tbd)
+- **ACoP spotlight** — presentation or poster opportunity at the Annual Conference of Pharmacometrics during SIG lunch
+
+---

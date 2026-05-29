@@ -4,28 +4,32 @@ title: "Pharmacometrics Benchmarks"
 
 ## Welcome
 
-This repository is a place where researchers can upload benchmark datasets for pharmacometrics.
+The Pharmacometrics Benchmarks repository is a curated, peer-reviewed collection of benchmark datasets for evaluating and comparing pharmacometric modeling methodologies. Each accepted dataset receives a DOI and is permanently hosted here.
 
-The datasets will mostly be synthetic with some strong demands on how realistic and well crafted they are. Each benchmark PR will essentially constitute a peer reviewed paper with a DOI and the review process will be rigorous.
+## Two Goals
 
-## Core Purpose
+The repository serves two complementary purposes:
 
-A core purpose is to enable the quantification of performance of different modelling methodology in a way that makes it easier to compare different methodology papers with each other. We will also be able to host competitions.
+**Goal 1 — Generic Benchmarks:** A curated collection of pharmacometric datasets for method comparison, teaching, and automated workflows. The bar for novelty is moderate — datasets must be well-motivated but do not need to represent complex real-world scenarios.
+
+**Goal 2 — Grand Challenges:** Highly realistic datasets targeting specific, hard problems in drug development — the kind that arise when you have "lived through the pain of real data". Designed for community competitions and linked to publication in [Quantitative Medicine](https://ascpt.onlinelibrary.wiley.com/journal/21638306).
+
+Read the [Scope & Eligibility](scope.qmd) page to understand which goal fits your dataset.
 
 ## Why Benchmarks Matter
 
 Standardized benchmarks enable:
 
-- **Reproducible comparisons** between different methodological approaches
+- **Reproducible comparisons** between different modeling approaches
 - **Transparent evaluation** of new methods against established baselines
 - **Community-driven standards** for pharmacometric modeling
 - **Competitive innovation** through organized challenges
 
 ## Getting Started
 
-- Learn more [about this initiative](about.qmd)
+- Read [Scope & Eligibility](scope.qmd) — what belongs here and the two submission tracks
 - Browse available [benchmarks](benchmarks.qmd)
-- Read our [submission guide](submission-guide.qmd)
+- Follow the [Submission Guide](submission-guide.qmd) to contribute
 - [Contact us](contact.qmd) to get involved
 
 ## Recent Benchmarks
