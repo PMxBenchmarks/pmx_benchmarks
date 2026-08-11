@@ -12,7 +12,7 @@ The repository serves two complementary purposes:
 
 **Goal 1 — Generic Benchmarks:** A curated collection of pharmacometric datasets for method comparison, teaching, and automated workflows. The bar for novelty is moderate — datasets must be well-motivated but do not need to represent complex real-world scenarios.
 
-**Goal 2 — Grand Challenges:** Highly realistic datasets targeting specific, hard problems in drug development — the kind that arise when you have "lived through the pain of real data". Designed for community competitions and linked to publication in [Quantitative Medicine](https://ascpt.onlinelibrary.wiley.com/journal/21638306).
+**Goal 2 — Grand Challenges:** Highly realistic datasets targeting specific, hard problems in drug development — the kind encountered when current methods cannot address a real-world problem effectively. Designed for community competitions and linked to publication in [Quantitative Medicine](https://ascpt.onlinelibrary.wiley.com/journal/21638306).
 
 Read the [Scope & Eligibility](scope.qmd) page to understand which goal fits your dataset.
 

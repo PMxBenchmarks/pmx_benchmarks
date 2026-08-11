@@ -2,15 +2,11 @@
 title: "Scope & Eligibility"
 ---
 
----
-
 ## Purpose
 
-The Pharmacometrics Benschmarks repository maintains a curated, public collection of pharmacometric benchmark datasets to facilitate reproducible performance comparisons across novel modeling methodologies. It is **planned to be** hosted under ISoP and operated by the Benchmarking Datasets Working Group of the AI/ML SIG.
+The Pharmacometrics Benchmarks repository maintains a curated, public collection of pharmacometric benchmark datasets to facilitate reproducible performance comparisons across novel modeling methodologies. It is **planned to be** hosted under ISoP and operated by the Benchmarking Datasets Working Group of the AI/ML SIG.
 
 Content is openly accessible to both ISoP members and the broader scientific community.
-
-The goals are to maintain a curated, public repository of generic benchmark datasets to facilitate performance comparisons across pharmacometric approaches and to curate highly realistic datasets for specific pharmacometric problems ("grand challenges") that embody challenges encountered in real-world drug development, to raise awareness for the field's big problems.
 
 ---
 
@@ -25,11 +21,13 @@ All submissions fall under one of the two goals. The goal determines the review 
 **Intended for:**
 
 - Teaching cases and educational datasets
-- Agentic/automated workflows ("agentic datasets")
-- Unit-test style submissions isolating a single modeling phenomenon
+- Datasets intended for use in agentic or automated workflow evaluations ("agentic datasets")
+- Unit-test style submissions isolating a single modeling phenomenon, such as sparse sampling, mixed dosing, or high covariate missingness
 - Datasets with moderate complexity and limited novelty requirements
 
-**Review:** Minimal structural review. Novelty bar is not high, but must be justified (see [Novelty & Motivation](#novelty-and-motivation)).
+Note that this repository provides datasets only. Designing an agentic evaluation framework is out of scope here and is better suited to the Agentic WG, which may nonetheless make heavy use of these datasets in its evaluations.
+
+**Review:** Minimal structural review. Novelty bar is not high, but must be justified (see [Novel and Motivated](#novelty-and-motivation)).
 
 **Outcome:** DOI assigned upon acceptance; listed on the website.
 
@@ -38,16 +36,16 @@ All submissions fall under one of the two goals. The goal determines the review 
 
 ### Goal 2 — Grand Challenges
 
-> *Curate highly realistic datasets for specific pharmacometric problems ("grand challenges") that embody challenges encountered in real-world drug development, to raise awareness for the field's big problems.*
+> *Curate highly realistic datasets for specific pharmacometric problems ("grand challenges") that embody challenges encountered in real-world drug development, to raise awareness and promote novel methodologies to solve the field's big problems.*
 
 **Intended for:**
 
-- Datasets targeting complex, realistic drug-development scenarios — by submitters who have "lived through the pain of real data"
+- Datasets targeting complex, realistic drug-development scenarios — by submitters who have encountered a real-world problem that current methods cannot address effectively
 - Multi-task benchmarks with clinical relevance
 - Submissions designed for community competitions and rankings
 - Datasets where the problem itself is the contribution (comparable to CASP / protein folding challenges in biology)
 
-**Review:** Editorial triage, then full quality based peer review in addition to structural review. **Intention to be in the future ** eligible for fast-track consideration at Quantitative Medicine.
+**Review:** Editorial triage, then full quality-based peer review in addition to structural review. In the future, these submissions are intended to be eligible for fast-track consideration at Quantitative Medicine.
 
 **Outcome:** DOI assigned; eligible for featured status, benchmark suite inclusion, and QM publication.
 
@@ -63,7 +61,7 @@ The dataset must be appropriate for pharmacometric modeling — pharmacokinetics
 
 ### 2. Longitudinal structure
 
-Data will typically include repeated measurements over time. Non-longitudinal modalities (e.g. DXA, PET imaging) may be considered case-by-case with explicit justification of relevance to the field and need to be included in the suite.
+Data will typically include repeated measurements over time. Non-longitudinal modalities (e.g. DXA, PET imaging) may be considered case-by-case, with explicit justification of both their relevance to the field and the need to include them in the collection.
 
 ### 3. Well-documented
 
@@ -104,6 +102,4 @@ We want contributing a benchmark to be rewarding in proportion to the effort put
 **Goal 2 submissions may additionally receive:**
 
 - **Fast-track consideration at QM** (tbd)
-- **ACoP spotlight** — presentation or poster opportunity at the Annual Conference of Pharmacometrics during SIG lunch
-
----
+- **ACoP spotlight** — an opportunity to present during the AI/ML SIG lunch at the American Conference on Pharmacometrics, allocated at the discretion of the SIG steering committee. This is currently the only such slot the SIG has to award; other venues may be added if comparable opportunities arise.
