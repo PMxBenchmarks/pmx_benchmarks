@@ -11,15 +11,15 @@ We welcome questions, suggestions, and collaboration inquiries from the pharmaco
 *Placeholder: Add primary contact email or contact form*
 
 - **Email**: TBD
-- **GitHub Discussions**: [Start a discussion](https://github.com/korsbo/pmx_benchmarks/discussions)
+- **GitHub Issues**: [Open an issue](https://github.com/PMxBenchmarks/pmx_benchmarks/issues)
 
 ## Submission Questions
 
 If you have questions about submitting a benchmark:
 
 1. Review our [submission guide](submission-guide.qmd)
-2. Check existing [GitHub issues](https://github.com/korsbo/pmx_benchmarks/issues)
-3. Open a new discussion or issue if your question isn't answered
+2. Check existing [GitHub issues](https://github.com/PMxBenchmarks/pmx_benchmarks/issues)
+3. Open a new issue if your question isn't answered
 
 ## Technical Support
 
@@ -29,7 +29,7 @@ For technical issues with:
 - Data access
 - Tooling packages
 
-Please open an issue on our [GitHub repository](https://github.com/korsbo/pmx_benchmarks/issues).
+Please open an issue on our [GitHub repository](https://github.com/PMxBenchmarks/pmx_benchmarks/issues).
 
 ## Joining the Initiative
 

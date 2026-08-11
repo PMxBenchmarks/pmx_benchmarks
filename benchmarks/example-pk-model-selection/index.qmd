@@ -15,11 +15,44 @@ This benchmark dataset provides a synthetic pharmacokinetic dataset generated fr
 
 **Keywords:** pharmacokinetics, model selection, two-compartment, synthetic data
 
+**Goal:** 1 — Generic Benchmark ([Scope & Eligibility](../../scope.qmd))
+
+## Motivation
+
+*This is the repository's reference submission. It is deliberately modest, and exists
+partly to demonstrate the required structure — see [Scope & Eligibility](../../scope.qmd)
+for what a motivation section should contain.*
+
+**Why should this dataset be added to this repository?**
+
+Model selection is among the most common decisions in pharmacometric practice, yet methods
+for it are usually demonstrated on datasets whose true structure is unknown, so a method can
+only be judged against another method rather than against the truth. This dataset fixes the
+generating mechanism — a two-compartment model with two real covariate effects and two decoy
+covariates — so that structural and covariate selection can be scored against a known answer.
+It also serves as the worked example that new submitters copy from.
+
+**Which existing datasets (in this repo or elsewhere) are most similar?**
+
+No other dataset in this repository targets model selection. Outside it, the closest widely
+used cases are the classic teaching datasets distributed with modelling software — the
+theophylline and phenobarbital datasets, and the simulated examples shipped with Xpose. These
+are real or semi-real, sparsely documented as to ground truth, and carry no pre-specified
+train/test split or defined evaluation metric.
+
+**How is this submission concretely different enough to warrant inclusion?**
+
+Three things the teaching datasets do not provide: the true structural model and covariate
+relationships are documented, including which covariates are deliberate decoys; a fixed 70/30
+subject-level train/test split is shipped so results are comparable across papers; and three
+typed tasks with declared metrics and output formats are specified in `metadata.yml`, so a
+method's score is reproducible rather than a matter of interpretation.
+
 ## Background
 
 Model selection is a fundamental challenge in pharmacometrics. This benchmark represents a controlled scenario where the true data-generating mechanism is known, allowing for rigorous evaluation of model selection methodologies.
 
-### Motivation
+### Intended Use
 
 - Evaluate different model selection strategies (stepwise, LASSO, Bayesian methods)
 - Compare information criteria (AIC, BIC, cross-validation)
@@ -184,7 +217,9 @@ print(data_dict)
 
 ## License
 
-This dataset is provided under the CC-BY-4.0 license. You are free to use, share, and adapt this benchmark with attribution.
+This dataset is provided under the MIT licence, the repository default. You are free to
+use, share, and adapt it. Attribution is not a legal condition, but please cite the
+benchmark — see Citation below.
 
 ## Citation
 

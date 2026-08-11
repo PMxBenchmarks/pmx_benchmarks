@@ -76,7 +76,7 @@ Not sure? See [Scope & Eligibility](https://pmxbenchmarks.github.io/pmx_benchmar
 - [ ] `goal` field set (`generic` or `grand_challenge`)
 - [ ] YAML syntax is valid
 - [ ] Authors and affiliations are accurate
-- [ ] License is specified
+- [ ] `license: MIT` set (the repository default — raise it in this PR if you cannot use MIT)
 
 ### Technical
 

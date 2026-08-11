@@ -7,6 +7,9 @@ project:
 
 website:
   title: "Pharmacometrics Benchmarks"
+  # Required for sitemap.xml, robots.txt, and canonical URLs.
+  site-url: https://pmxbenchmarks.github.io/pmx_benchmarks
+  repo-url: https://github.com/PMxBenchmarks/pmx_benchmarks
   navbar:
     left:
       - text: "Home"
@@ -23,7 +26,7 @@ website:
         href: contact.qmd
     right:
       - icon: github
-        href: https://github.com/korsbo/pmx_benchmarks
+        href: https://github.com/PMxBenchmarks/pmx_benchmarks
   
   page-footer:
     center: "Pharmacometrics Benchmarks Initiative | Associated with ISoP"

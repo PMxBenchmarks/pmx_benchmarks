@@ -110,7 +110,8 @@ Relevant citations.
 
 ## License
 
-License information (typically CC-BY-4.0).
+This dataset is published under the MIT licence, the repository default. Attribution
+is not legally required, but please cite the benchmark — see Citation below.
 
 ## Citation
 
@@ -167,7 +168,7 @@ tasks:
   #   output_format: {type: summary_stats, stats: [q10, q25, q50, q75, q90]}
   #   truth_file: tasks/cmax_truth.yml   # pre-computed from generative model
   #   metric: quantile_coverage
-license: CC-BY-4.0
+license: MIT           # repository default; see the Submission Guide
 doi: TBD  # Will be assigned upon acceptance
 ```
 

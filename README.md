@@ -117,13 +117,14 @@ We welcome contributions! Please see:
 
 ## 📝 License
 
-- **Code and documentation:** MIT License
-- **Individual benchmarks:** Licensed as specified in their metadata (typically CC-BY-4.0)
+MIT License, for code, documentation, and benchmark data alike. Attribution is not a legal
+condition, but we ask that you cite the benchmarks you use — each accepted submission
+receives a DOI.
 
 ## 📧 Contact
 
-- **GitHub Discussions:** [Start a discussion](https://github.com/pmxbenchmarks/pmx_benchmarks/discussions)
-- **Issues:** [Report an issue](https://github.com/pmxbenchmarks/pmx_benchmarks/issues)
+- **Issues:** [Report an issue or ask a question](https://github.com/PMxBenchmarks/pmx_benchmarks/issues)
+- **Contact page:** [pmxbenchmarks.github.io/pmx_benchmarks/contact.html](https://pmxbenchmarks.github.io/pmx_benchmarks/contact.html)
 
 ## 🏛️ Governance
 

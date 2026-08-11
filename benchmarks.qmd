@@ -8,7 +8,8 @@ Below you'll find all available benchmark datasets. Each benchmark includes deta
 
 ### Using the Benchmarks
 
-All benchmarks are freely available under their specified licenses. You can:
+All benchmarks are freely available under the MIT licence. Attribution is not legally
+required, but we ask that you cite the benchmarks you use — each has a DOI. You can:
 
 - Download datasets directly from this repository
 - Use helper packages (coming soon) to programmatically access benchmarks:
@@ -25,12 +26,13 @@ All benchmarks are freely available under their specified licenses. You can:
 
 A synthetic two-compartment pharmacokinetic dataset for evaluating model selection methodologies.
 
+- **Goal**: 1 — Generic Benchmark
 - **Authors**: Jane Researcher, John Modeler
 - **Data Type**: Synthetic
 - **Subjects**: 200 (140 train, 60 test)
 - **Tasks**: Structural model selection, covariate selection, prediction accuracy
 
-[View Full Documentation](benchmarks/example-pk-model-selection/index.qmd) | [Download Data](https://github.com/korsbo/pmx_benchmarks/tree/main/benchmarks/example-pk-model-selection/data)
+[View Full Documentation](benchmarks/example-pk-model-selection/index.qmd) | [Download Data](https://github.com/PMxBenchmarks/pmx_benchmarks/tree/main/benchmarks/example-pk-model-selection/data)
 
 ---
 

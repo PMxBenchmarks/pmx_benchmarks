@@ -4,7 +4,7 @@ import yaml
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent / '.github' / 'scripts'))
-from validate_benchmark import validate_tasks
+from validate_benchmark import validate_metadata, validate_tasks
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -188,4 +188,51 @@ def test_probability_truth_file_missing_p_key_is_error(tmp_path):
     )
     errors = validate_tasks([task], tmp_path)
     assert any("key 'p'" in e for e in errors)
+
+
+# ── submission track: metadata `goal` field ───────────────────────────────────
+
+def write_metadata(tmp_path, **overrides):
+    """Write a minimal metadata.yml satisfying every required field, and return its path."""
+    metadata = {
+        'name': 'test-benchmark',
+        'title': 'Test Benchmark',
+        'version': '1.0.0',
+        'date': '2026-01-01',
+        'authors': [{'name': 'Jane Doe', 'affiliation': 'Example University'}],
+        'description': 'A benchmark used by the test suite.',
+        'keywords': ['pharmacokinetics'],
+        'data_type': 'synthetic',
+        'tasks': [regression_task()],
+        'license': 'MIT',
+    }
+    metadata.update(overrides)
+    path = tmp_path / 'metadata.yml'
+    with open(path, 'w') as f:
+        yaml.dump(metadata, f)
+    return path
+
+
+def test_goal_generic_is_accepted(tmp_path):
+    errors, warnings = validate_metadata(write_metadata(tmp_path, goal='generic'))
+    assert errors == []
+    assert not any('goal' in w for w in warnings)
+
+
+def test_goal_grand_challenge_is_accepted(tmp_path):
+    errors, warnings = validate_metadata(write_metadata(tmp_path, goal='grand_challenge'))
+    assert errors == []
+    assert not any('goal' in w for w in warnings)
+
+
+def test_missing_goal_is_warning_not_error(tmp_path):
+    """Benchmarks predating the two-goal scope must still validate."""
+    errors, warnings = validate_metadata(write_metadata(tmp_path))
+    assert errors == []
+    assert any("Missing 'goal'" in w for w in warnings)
+
+
+def test_invalid_goal_is_error(tmp_path):
+    errors, _ = validate_metadata(write_metadata(tmp_path, goal='grand-challenge'))
+    assert any("Invalid goal" in e for e in errors)
 

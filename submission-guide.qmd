@@ -168,9 +168,22 @@ tasks:
     target: DV
     output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
     metric: rmse
-license: CC-BY-4.0
+license: MIT
 doi: TBD
 ```
+
+All benchmarks in this repository are published under the MIT licence — see
+[Licensing](#licensing) below.
+
+### Licensing {#licensing}
+
+The repository uses a single permissive licence, MIT, for data and code alike, rather
+than asking each submitter to pick one. This keeps benchmarks unambiguously reusable.
+Set `license: MIT` in `metadata.yml`.
+
+Attribution is not a legal condition of the MIT licence, but we ask that users cite the
+benchmarks they use, and every accepted submission receives a DOI to make that easy. If
+you cannot release your data under MIT, raise it in your pull request before submitting.
 
 ---
 
@@ -303,4 +316,4 @@ One metric per task — create separate tasks for multiple metrics.
 
 ## Questions?
 
-[Contact us](contact.qmd) or open a discussion on GitHub.
+[Contact us](contact.qmd) or open an issue on GitHub.
