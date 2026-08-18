@@ -2,6 +2,7 @@ name: example-pk-model-selection
 title: Example PK Model Selection Benchmark
 version: 1.0.0
 date: 2025-10-16
+goal: generic          # generic | grand_challenge
 authors:
   - name: Jane Researcher
     affiliation: Example University
@@ -43,5 +44,5 @@ tasks:
     target: DV
     output_format: {type: individual_predictions, columns: [ID, TIME, PRED]}
     metric: rmse
-license: CC-BY-4.0
+license: MIT
 doi: TBD

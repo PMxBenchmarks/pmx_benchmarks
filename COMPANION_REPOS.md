@@ -4,7 +4,7 @@ This document lists the companion repositories for programmatic access to PMX Be
 
 ## Python Package: pmx-benchmarks-py
 
-**Repository**: `korsbo/pmx-benchmarks-py` (to be created)
+**Repository**: `PMxBenchmarks/pmx-benchmarks-py` (to be created)
 
 **Purpose**: Python package for easy loading and management of PMX benchmark datasets.
 
@@ -34,7 +34,7 @@ metadata = loader.get_metadata('example-pk-model-selection')
 
 ## R Package: pmxbenchmarks
 
-**Repository**: `korsbo/pmxbenchmarks` (to be created)
+**Repository**: `PMxBenchmarks/pmxbenchmarks` (to be created)
 
 **Purpose**: R package for easy loading and management of PMX benchmark datasets.
 
@@ -48,7 +48,7 @@ metadata = loader.get_metadata('example-pk-model-selection')
 **Installation** (planned):
 ```r
 # From GitHub
-devtools::install_github("korsbo/pmxbenchmarks")
+devtools::install_github("PMxBenchmarks/pmxbenchmarks")
 ```
 
 **Usage** (planned):
@@ -67,7 +67,7 @@ metadata <- get_metadata("example-pk-model-selection")
 
 ## Julia Package: PMXBenchmarks.jl
 
-**Repository**: `korsbo/PMXBenchmarks.jl` (to be created)
+**Repository**: `PMxBenchmarks/PMXBenchmarks.jl` (to be created)
 
 **Purpose**: Julia package for easy loading and management of PMX benchmark datasets.
 
@@ -136,4 +136,4 @@ These companion repositories will be created as needed based on community intere
 
 ## Contributing
 
-Interested in creating or maintaining one of these packages? Please [contact us](https://korsbo.github.io/pmx_benchmarks/contact.html) or open an issue in the main repository.
+Interested in creating or maintaining one of these packages? Please [contact us](https://pmxbenchmarks.github.io/pmx_benchmarks/contact.html) or open an issue in the main repository.

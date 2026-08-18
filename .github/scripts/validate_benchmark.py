@@ -36,6 +36,9 @@ def validate_benchmark_structure(benchmark_path):
 
     return errors, warnings
 
+VALID_GOALS = {'generic', 'grand_challenge'}
+
+
 def validate_metadata(metadata_path):
     """Validate metadata.yml structure."""
     errors = []
@@ -53,7 +56,20 @@ def validate_metadata(metadata_path):
         for field in required_fields:
             if field not in metadata:
                 errors.append(f"Missing required metadata field: {field}")
-        
+
+        # Submission track. Warned rather than required, so that benchmarks predating
+        # the two-goal scope still validate; invalid values are always an error.
+        if 'goal' not in metadata:
+            warnings.append(
+                f"Missing 'goal' field "
+                f"(expected: {' | '.join(sorted(VALID_GOALS))}) — see scope.qmd"
+            )
+        elif metadata['goal'] not in VALID_GOALS:
+            errors.append(
+                f"Invalid goal '{metadata['goal']}', "
+                f"must be one of {sorted(VALID_GOALS)}"
+            )
+
         # Validate authors structure
         if 'authors' in metadata:
             if not isinstance(metadata['authors'], list) or len(metadata['authors']) == 0:

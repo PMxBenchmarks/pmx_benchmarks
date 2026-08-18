@@ -6,14 +6,14 @@ Thank you for your interest in contributing to the Pharmacometrics Benchmarks In
 
 ### 1. Submit a Benchmark Dataset
 
-The primary way to contribute is by submitting a high-quality benchmark dataset. See our [Submission Guide](https://korsbo.github.io/pmx_benchmarks/submission-guide.html) for detailed instructions.
+The primary way to contribute is by submitting a benchmark dataset. There are two tracks — read the [Scope & Eligibility](https://pmxbenchmarks.github.io/pmx_benchmarks/scope.html) page first.
 
 **Quick steps:**
 
 1. Fork this repository
 2. Create your benchmark in `benchmarks/<your-dataset-name>/`
 3. Follow the [BENCHMARK_TEMPLATE.md](BENCHMARK_TEMPLATE.md)
-4. Submit a Pull Request using the PR template
+4. Submit a Pull Request using the PR template — include a motivation section
 
 ### 2. Improve Documentation
 
@@ -47,7 +47,7 @@ Contact the maintainers to express interest in reviewing.
 
 ### 5. Report Issues
 
-Found a bug or have a suggestion? [Open an issue](https://github.com/korsbo/pmx_benchmarks/issues).
+Found a bug or have a suggestion? [Open an issue](https://github.com/PMxBenchmarks/pmx_benchmarks/issues).
 
 ## Development Setup
 
@@ -167,16 +167,19 @@ Contributors will be acknowledged in:
 
 ## Questions?
 
-- Check our [FAQ](https://korsbo.github.io/pmx_benchmarks/submission-guide.html)
-- [Open a discussion](https://github.com/korsbo/pmx_benchmarks/discussions)
-- [Contact us](https://korsbo.github.io/pmx_benchmarks/contact.html)
+- Check our [FAQ](https://pmxbenchmarks.github.io/pmx_benchmarks/submission-guide.html)
+- [Open an issue](https://github.com/PMxBenchmarks/pmx_benchmarks/issues)
+- [Contact us](https://pmxbenchmarks.github.io/pmx_benchmarks/contact.html)
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under:
+By contributing, you agree that your contributions — code, documentation, and
+benchmark data alike — will be licensed under the MIT License.
 
-- MIT License (for code and documentation)
-- CC-BY-4.0 (recommended for benchmark data)
+We deliberately use a single permissive licence for everything rather than asking
+each submitter to choose one. Attribution is therefore not a legal requirement, but
+we ask that you cite the benchmarks you use; every accepted submission receives a
+DOI to make that straightforward.
 
 ---
 

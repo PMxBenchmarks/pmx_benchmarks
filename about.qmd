@@ -6,6 +6,8 @@ title: "About the Initiative"
 
 The Pharmacometrics Benchmarks Initiative provides a curated collection of high-quality benchmark datasets for evaluating and comparing pharmacometric modeling methodologies.
 
+Submissions follow one of two tracks. **Goal 1 — Generic Benchmarks** covers teaching cases, datasets for agentic and automated workflow evaluation, and unit-test style datasets that isolate a single modeling phenomenon. **Goal 2 — Grand Challenges** covers highly realistic datasets built around a specific drug-development problem that current methods do not address well. The two tracks carry different requirements and different review depth — see [Scope & Eligibility](scope.qmd).
+
 ## Governing Body
 
 *Placeholder: Information about the governing committee and organizational structure will be added here.*
@@ -22,12 +24,17 @@ This initiative is associated with the International Society of Pharmacometrics 
 
 ## Publication Venue
 
-Each accepted benchmark submission will be treated as a peer-reviewed publication with:
+Every accepted benchmark submission receives:
 
-- Rigorous peer review process
 - Assignment of a Digital Object Identifier (DOI)
 - Permanent archival record
 - Citation in the scientific literature
+
+Review depth differs by track. Goal 1 submissions receive a structural review plus a light
+assessment of the motivation. Goal 2 submissions receive editorial triage followed by full
+scientific peer review, and are treated as a peer-reviewed publication; the intention is for
+them to become eligible for fast-track consideration at Quantitative Medicine. See
+[Scope & Eligibility](scope.qmd) for the full criteria.
 
 ## How to Get Involved
 

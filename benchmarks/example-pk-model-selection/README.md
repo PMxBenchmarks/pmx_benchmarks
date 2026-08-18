@@ -6,13 +6,13 @@ This is an example benchmark dataset. For full documentation, see [index.qmd](in
 
 - **Documentation:** [index.qmd](index.qmd)
 - **Metadata:** [metadata.yml](metadata.yml)
-- **Data Dictionary:** [data/data-dictionary.csv](data/data-dictionary.csv)
+- **Data Dictionary:** [data/data-dictionary.yml](data/data-dictionary.yml)
 
 ## Files
 
 - `data/train.csv` - Training dataset (140 subjects)
 - `data/test.csv` - Test dataset (60 subjects)
-- `data/data-dictionary.csv` - Variable descriptions
+- `data/data-dictionary.yml` - Variable descriptions
 
 ## Citation
 

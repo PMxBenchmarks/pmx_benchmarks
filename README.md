@@ -76,7 +76,7 @@ pmx_benchmarks/
 │       ├── data/
 │       │   ├── train.csv
 │       │   ├── test.csv
-│       │   └── data-dictionary.csv
+│       │   └── data-dictionary.yml
 │       └── README.md
 ├── .github/
 │   ├── workflows/          # CI/CD workflows
@@ -91,32 +91,40 @@ pmx_benchmarks/
 └── README.md               # This file
 ```
 
-## 🔍 Benchmark Requirements
+## 🔍 Benchmark Goals
+
+There are two submission tracks — see the [Scope & Eligibility](https://pmxbenchmarks.github.io/pmx_benchmarks/scope.html) page for details.
+
+**Goal 1 — Generic Benchmarks:** Teaching cases, agentic datasets, unit-test style submissions. Moderate novelty bar. Receives a DOI.
+
+**Goal 2 — Grand Challenges:** Highly realistic drug-development scenarios. High novelty bar. Receives a DOI and is eligible for fast-track consideration at Quantitative Medicine.
 
 All benchmarks must:
 
-- ✅ Be **realistic** (irregular sampling, confounding dropouts, realistic relationships)
-- ✅ Be **longitudinal**
-- ✅ Be **well documented** (generative process, realistic scenario)
-- ✅ Have **associated tasks** for drug development decision-making
+- ✅ Be **pharmacometric in nature** (PK, PD, exposure-response, or related)
+- ✅ Be **well documented** (generative process or scenario description, yspec YAML data dictionary)
+- ✅ Have **associated tasks** with defined metrics
 - ✅ Have a **specified train/test split**
+- ✅ Include a **motivation section** (why this dataset, what's similar, what's different)
 
 ## 🤝 Contributing
 
 We welcome contributions! Please see:
 
+- [Scope & Eligibility](https://pmxbenchmarks.github.io/pmx_benchmarks/scope.html)
 - [Submission Guide](https://pmxbenchmarks.github.io/pmx_benchmarks/submission-guide.html)
 - [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
 
 ## 📝 License
 
-- **Code and documentation:** MIT License
-- **Individual benchmarks:** Licensed as specified in their metadata (typically CC-BY-4.0)
+MIT License, for code, documentation, and benchmark data alike. Attribution is not a legal
+condition, but we ask that you cite the benchmarks you use — each accepted submission
+receives a DOI.
 
 ## 📧 Contact
 
-- **GitHub Discussions:** [Start a discussion](https://github.com/pmxbenchmarks/pmx_benchmarks/discussions)
-- **Issues:** [Report an issue](https://github.com/pmxbenchmarks/pmx_benchmarks/issues)
+- **Issues:** [Report an issue or ask a question](https://github.com/PMxBenchmarks/pmx_benchmarks/issues)
+- **Contact page:** [pmxbenchmarks.github.io/pmx_benchmarks/contact.html](https://pmxbenchmarks.github.io/pmx_benchmarks/contact.html)
 
 ## 🏛️ Governance
 
