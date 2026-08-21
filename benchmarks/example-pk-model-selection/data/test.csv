@@ -1,5 +1,3 @@
-ID,TIME,AMT,DV,EVID,CMT,MDV,WT,AGE,SEX,DROPOUT
-201,0,100,.,1,1,1,68.5,52,0,0
-201,3,0,4.98,0,2,0,68.5,52,0,0
-201,12,0,1.87,0,2,0,68.5,52,0,0
-201,48,0,0.42,0,2,0,68.5,52,0,0
+version https://git-lfs.github.com/spec/v1
+oid sha256:7eaf3f3fc90eebd44ce498b0be8a171ed67dd47f340e745bc6eef66fd3e49205
+size 172
