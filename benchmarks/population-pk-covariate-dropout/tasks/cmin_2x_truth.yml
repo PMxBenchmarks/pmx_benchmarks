@@ -1,0 +1,11 @@
+scenario: 200 mg once daily (2x observed dose), full adherence, same 14-day schedule
+endpoint: Steady-state trough Cmin,ss (mg/L) at 24 h after the day-14 dose; true individual
+  values (structural model + IIV, no IOV/RUV).
+population: Data-generating population (baseline covariates); dropout not applied.
+n_sim: 20000
+estimates:
+  q10: 0.249
+  q25: 0.3695
+  q50: 0.5646
+  q75: 0.839
+  q90: 1.1687

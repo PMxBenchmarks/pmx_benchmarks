@@ -1,0 +1,125 @@
+SETUP__:
+  description: >
+    Data dictionary for the "Population PK/PD with Covariates and Informative
+    Dropout" benchmark. NONMEM-style long format; one row per event. Observation
+    type is given by DVID (1 = PK, 2 = PD); DV is missing ('.') on dosing rows
+    and BLQ records.
+  glue:
+    - "{{ short }}"
+
+ID:
+  short: Unique subject identifier
+  type: integer
+  values: 1 to 400
+  comment: Train and test IDs are disjoint.
+
+TIME:
+  short: Time since first dose
+  type: numeric
+  unit: hours
+  range: [0, ]
+
+TAD:
+  short: Time after most recent administered dose
+  type: numeric
+  unit: hours
+  range: [0, ]
+  comment: 0 on dosing rows.
+
+DVID:
+  short: Observation / dependent-variable type
+  type: integer
+  values:
+    0: dosing row
+    1: PK plasma concentration
+    2: PD biomarker
+
+AMT:
+  short: Dose amount administered at this record
+  type: numeric
+  unit: mg
+  comment: 100 on dosing rows; 0 on observation rows.
+
+DV:
+  short: Dependent variable (PK concentration in mg/L if DVID=1; PD biomarker in U if DVID=2)
+  type: numeric
+  comment: "'.' (missing) on dosing rows and BLQ records."
+
+EVID:
+  short: Event identifier
+  type: integer
+  values:
+    0: observation
+    1: dosing event
+
+MDV:
+  short: Missing dependent variable flag
+  type: integer
+  values:
+    0: DV present
+    1: DV missing (dosing rows and BLQ records)
+
+CMT:
+  short: Compartment for the record
+  type: integer
+  values:
+    1: depot (oral dose)
+    2: central (PK sampling)
+    3: PD response
+
+BLQ:
+  short: Below-limit-of-quantification flag (PK only)
+  type: integer
+  values:
+    0: quantifiable or not applicable
+    1: PK observation below LLOQ (0.10 mg/L)
+
+DOSE:
+  short: Planned daily dose level (regimen descriptor; constant within subject)
+  type: numeric
+  unit: mg
+  values: 100
+
+WT:
+  short: Body weight (time-varying; recorded with measurement noise; occasionally missing)
+  type: numeric
+  unit: kg
+  range: [42, 130]
+  comment: "'.' if missing."
+
+EGFR:
+  short: Estimated GFR / renal function (time-varying; recorded with noise; partly missing)
+  type: numeric
+  unit: mL/min/1.73m2
+  range: [18, 160]
+  comment: "'.' if missing."
+
+AGE:
+  short: Age at baseline
+  type: integer
+  unit: years
+  range: [18, 85]
+
+SEX:
+  short: Sex
+  type: integer
+  values:
+    0: female
+    1: male
+
+DROPOUT:
+  short: Subject-level dropout flag (constant within subject)
+  type: integer
+  values:
+    0: completed 14-day study
+    1: discontinued before completion
+
+DROPOUT_REASON:
+  short: Cause of discontinuation (competing risks; constant within subject)
+  type: integer
+  values:
+    0: completed
+    1: adverse event
+    2: lack of efficacy
+    3: lost to follow-up
+    4: administrative

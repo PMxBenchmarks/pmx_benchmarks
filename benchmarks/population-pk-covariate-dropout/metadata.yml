@@ -1,0 +1,97 @@
+name: population-pk-covariate-dropout
+title: Population PK/PD with Covariates and Informative Dropout
+goal: grand_challenge  # generic | grand_challenge
+version: 2.0.0
+date: 2026-06-14
+authors:
+  - name: Ali Farnoud
+    affiliation: ISoP AI/ML Special Interest Group
+    email: alifarnod@gmail.com
+  - name: Anuraag Saini
+    affiliation: ISoP AI/ML Special Interest Group
+description: >
+  A synthetic two-compartment oral population PK/PD benchmark built to mirror the
+  messiness of real clinical-development data while retaining a fully known
+  ground truth. It includes allometric weight and renal-function covariate
+  effects, correlated inter-individual variability, interoccasion variability,
+  combined residual error, BLQ data, irregular sparse-plus-rich sampling,
+  imperfect adherence with dose-timing variability, time-varying/noisy/partly
+  missing covariates, assay outliers, an indirect-response PD biomarker
+  (exposure-response), and competing-risk multi-cause informative dropout
+  (adverse event ~ exposure; lack of efficacy ~ poor response; LTFU; admin).
+keywords:
+  - population-pharmacokinetics
+  - pharmacodynamics
+  - exposure-response
+  - two-compartment
+  - covariate-modeling
+  - interoccasion-variability
+  - informative-dropout
+  - missing-not-at-random
+  - adherence
+  - dose-individualization
+  - longitudinal
+  - synthetic-data
+data_type: synthetic
+therapeutic_area: general
+n_subjects: 400
+n_subjects_train: 280
+n_subjects_test: 120
+n_observations: 3176
+n_observations_train: 2205
+n_observations_test: 971
+tasks:
+  # 1. Regression — individual PK concentration prediction (rows where DVID=1)
+  - name: pk-concentration-prediction
+    type: regression
+    description: >
+      Predict the plasma concentration (DV) at each quantifiable PK test
+      observation (DVID=1, BLQ=0), using a model developed on the training set.
+    target: DV
+    output_format: {type: individual_predictions, columns: [ID, TIME, DVID, PRED]}
+    metric: rmse
+
+  # 2. Regression — PD biomarker / exposure-response prediction (rows where DVID=2)
+  - name: pd-biomarker-prediction
+    type: regression
+    description: >
+      Predict the PD biomarker (DV) at each PD test observation (DVID=2). Tests
+      whether a method captures the exposure-response relationship.
+    target: DV
+    output_format: {type: individual_predictions, columns: [ID, TIME, DVID, PRED]}
+    metric: rmse
+
+  # 3. Classification — multi-cause informative dropout
+  - name: dropout-prediction
+    type: classification
+    description: >
+      Predict the probability that each test subject discontinues before
+      completing the 14-day study. Dropout is a competing-risk mix dominated by
+      exposure-driven (AE) and response-driven (lack-of-efficacy) causes (MNAR).
+    output_format: {type: probabilities, columns: [ID, P_DROPOUT]}
+    metric: auroc
+
+  # 4. Counterfactual — steady-state trough distribution under 2x dose
+  - name: cmin-ss-2x-dose
+    type: counterfactual
+    description: >
+      Predict the population distribution of steady-state trough concentration
+      (Cmin,ss) if every subject received 200 mg QD (2x the observed dose).
+    scenario: "200 mg once daily (2x observed dose), full adherence, same 14-day schedule"
+    output_format: {type: summary_stats, stats: [q10, q25, q50, q75, q90]}
+    truth_file: tasks/cmin_2x_truth.yml
+    metric: quantile_coverage
+
+  # 5. Counterfactual — PD response (suppression) under 2x dose
+  - name: pd-response-2x-dose
+    type: counterfactual
+    description: >
+      Predict the population distribution of steady-state PD biomarker
+      suppression (% reduction from baseline) under 200 mg QD — a model-based
+      dose-selection / exposure-response decision.
+    scenario: "200 mg once daily (2x observed dose), full adherence, same 14-day schedule"
+    output_format: {type: summary_stats, stats: [q10, q25, q50, q75, q90]}
+    truth_file: tasks/pd_response_2x_truth.yml
+    metric: quantile_coverage
+license: MIT
+doi: TBD  # assigned upon acceptance

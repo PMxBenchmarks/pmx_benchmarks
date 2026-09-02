@@ -1,0 +1,11 @@
+scenario: 200 mg once daily (2x observed dose), full adherence, same 14-day schedule
+endpoint: Steady-state PD biomarker suppression (% reduction from baseline) at day
+  14; true individual values (structural model + IIV, no RUV).
+population: Data-generating population (baseline covariates); dropout not applied.
+n_sim: 20000
+estimates:
+  q10: 25.96
+  q25: 32.44
+  q50: 40.5
+  q75: 48.35
+  q90: 54.72

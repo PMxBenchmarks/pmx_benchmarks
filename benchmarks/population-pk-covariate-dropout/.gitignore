@@ -1,0 +1,7 @@
+src/qa/
+__pycache__/
+*.pyc
+.DS_Store
+PR_DESCRIPTION.md
+# legacy CSV dictionary superseded by data-dictionary.yml (yspec); not shipped
+data/data-dictionary.csv
