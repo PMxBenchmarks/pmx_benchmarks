@@ -1,0 +1,96 @@
+SETUP__:
+  description: Data dictionary for the IDR Covariate Discovery benchmark
+  glue:
+    - "{{ short }}"
+
+id:
+  short: Subject identifier
+  type: integer
+  comment: Unique integer per subject (1–300 train; 301–1300 test).
+
+time:
+  short: Time since first event
+  type: numeric
+  unit: hours
+  range: [0, ]
+
+evid:
+  short: Event identifier
+  type: integer
+  values:
+    0: observation
+    1: dose event
+
+y_pk:
+  short: Pharmacokinetic observation
+  type: numeric
+  unit: mg/L
+  comment: >
+    Plasma concentration (Central/V_c + additive Normal noise with
+    σ_PK = 0.02 mg/L). Missing for dose-event rows and for time points
+    reserved for PD-only sampling.
+
+y_pd:
+  short: Pharmacodynamic observation
+  type: numeric
+  unit: response units
+  comment: >
+    Indirect response (R + additive Normal noise with σ_PD = 0.05).
+    Missing for dose-event rows and for the dense early PK-focused
+    samples shortly after each dose.
+
+amt:
+  short: Dose amount
+  type: numeric
+  unit: mg
+  comment: 1.0 mg per dose event; missing or 0 for observation rows.
+
+cmt:
+  short: Compartment
+  type: integer
+  values:
+    1: Depot (for dosing events)
+  comment: Missing for observation rows.
+
+c1:
+  short: Abstract covariate 1
+  type: numeric
+  source: Gamma(5, 2)
+  comment: "Affects S_max via saturation: c1 / (10 + c1)"
+
+c2:
+  short: Abstract covariate 2
+  type: numeric
+  source: Gamma(7, 3)
+  comment: "Affects n (Hill coefficient) via power: (c2 / 20)^0.75"
+
+c3:
+  short: Abstract covariate 3
+  type: numeric
+  source: Normal(0, 1)
+  comment: "Affects K_a via interaction with c4: logistic(2 * c3 * c4)"
+
+c4:
+  short: Abstract covariate 4
+  type: numeric
+  source: Normal(0, 1)
+  comment: "Affects K_a via interaction with c3: logistic(2 * c3 * c4)"
+
+c5:
+  short: Abstract covariate 5
+  type: numeric
+  source: Gamma(11, 1)
+  comment: "Affects K_out via ratio with c6: c5 / (c5 + c6)"
+
+c6:
+  short: Abstract covariate 6
+  type: numeric
+  source: Gamma(11, 1)
+  comment: "Affects K_out via ratio with c5: c5 / (c5 + c6)"
+
+split:
+  short: Dataset split indicator
+  type: character
+  values:
+    train: Training set
+    test: Test set
